@@ -1,18 +1,17 @@
 import { first } from "@fleet-sdk/common";
-import { ErgoAddress, ErgoUnsignedInput, OutputBuilder, RECOMMENDED_MIN_FEE_VALUE, SAFE_MIN_BOX_VALUE, TransactionBuilder } from "@fleet-sdk/core";
-import {  SGroupElement, SInt, SLong, SSigmaProp } from "@fleet-sdk/serializer";
+import { ErgoAddress, OutputBuilder, RECOMMENDED_MIN_FEE_VALUE, SAFE_MIN_BOX_VALUE, TransactionBuilder } from "@fleet-sdk/core";
+import { SGroupElement, SInt, SLong, SSigmaProp } from "@fleet-sdk/serializer";
 import { eip0004Regs, type eip004Regs } from "./eip004utils.js"
+import { DEV_CONTRACT_PK, DEV_UI_PK } from "./settings.js";
 
-export async function mintHodlBoxTx(holderBase58PK: string,utxos:Array<any>, height: number,contractBase58PK:string,ergoAmount:bigint,uiBase58PK:string): any{
+export async function mintHodlBoxTx(holderBase58PK: string, utxos: Array<any>, height: number, ergoAmount: bigint, contractBase58PK: string = DEV_CONTRACT_PK,  uiBase58PK: string = DEV_UI_PK): any {
     const myAddr = ErgoAddress.fromBase58(holderBase58PK)
-    const uiAddr = ErgoAddress.fromBase58(uiBase58PK) 
-    
-    //:TODO: f(chest) + f(price <-> rate)
+    const uiAddr = ErgoAddress.fromBase58(uiBase58PK)
+
     const targetHeight = 1101525
     const targetPrice = 600000000n
-    const targetRate = 10n**18n/targetPrice
+    const targetRate = 10n ** 18n / targetPrice
 
-    //:TODO: f(chest)
     const tokenRegs: eip004Regs = {
         name: "$6000 Holdbox",
         description: `price: $0.95, date: 2023-09-29`,
@@ -24,8 +23,8 @@ export async function mintHodlBoxTx(holderBase58PK: string,utxos:Array<any>, hei
         ergoAmount,
         contractBase58PK
     ).setAdditionalRegisters({
-        R4: SLong(targetRate).toHex(), 
-        R5: SInt(targetHeight).toHex(), 
+        R4: SLong(targetRate).toHex(),
+        R5: SInt(targetHeight).toHex(),
         R6: SSigmaProp(SGroupElement(first(myAddr.getPublicKeys()))).toHex(),
         R7: SSigmaProp(SGroupElement(first(uiAddr.getPublicKeys()))).toHex(),
     });
@@ -41,12 +40,12 @@ export async function mintHodlBoxTx(holderBase58PK: string,utxos:Array<any>, hei
 
     const unsignedMintTransaction = new TransactionBuilder(height)
         .from([...utxos])
-        .to([contractBox,nftBox])
+        .to([contractBox, nftBox])
         .sendChangeTo(myAddr)
         .payFee(RECOMMENDED_MIN_FEE_VALUE)
         .build()
         .toEIP12Object();
-        
+
     return unsignedMintTransaction
 
 }

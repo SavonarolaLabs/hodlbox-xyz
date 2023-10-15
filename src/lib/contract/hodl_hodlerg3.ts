@@ -1,32 +1,28 @@
 export const hodlErg3 = `
 {
-    // Constants
-    // _contractDevPK   - public key of the contract developer
-    //val oraclePoolNFT = "0fb1eca4646950743bc5a8c341c16871a0ad9b4077e3b276bf93855d51a042d1"
+    // _contractDevPK - public key of the contract developer
+    // _oraclePoolNFT = "0fb1eca4646950743bc5a8c341c16871a0ad9b4077e3b276bf93855d51a042d1"
     
-    // Context vars set by the UI developer building the HODLBOX mint transaction
     val hodlTargetRate : Long        = SELF.R4[Long].get
-    val maxHeight : Int              = SELF.R5[Int].get
-    val hodlerPK : SigmaProp         = SELF.R6[SigmaProp].get
-    val uiFeePK : SigmaProp          = SELF.R7[SigmaProp].get
+    val maxHeight      : Int         = SELF.R5[Int].get
+    val hodlerPK       : SigmaProp   = SELF.R6[SigmaProp].get
+    val uiFeePK        : SigmaProp   = SELF.R7[SigmaProp].get
 
     val totalLockedHodlErg3: Long    = SELF.tokens(0)._2
 
     val fees: Coll[(SigmaProp, BigInt)] = {
         val feeDenom : Long = 100000L
-        val devFee  : Long  = 500L         // 0.5%
-        val uiFee : Long = 500L        // 0.5%
+        val devFee   : Long = 500L         // 0.5%
+        val uiFee    : Long = 500L         // 0.5%
             Coll(
                  (_contractDevPK, (devFee.toBigInt * totalLockedHodlErg3.toBigInt) / feeDenom.toBigInt),
                  (uiFeePK, (uiFee.toBigInt * totalLockedHodlErg3.toBigInt) / feeDenom.toBigInt)
             )
     }
 
-
-    // Ensure that correct fee output boxes exist
     val feesPaid : Boolean = {
         val devFeesPaid: Boolean = {
-            if(fees(0)._2 > 0){ // Dev fee is greater than 0
+            if(fees(0)._2 > 0){
                 val devOutput : Box   = OUTPUTS(1)
                 allOf(
                     Coll(
@@ -35,12 +31,12 @@ export const hodlErg3 = `
                     )
                 )
             }else{
-                true // do nothing if dev fee doesn't add up greater than 0, prevents errors on low value bonds
+                true
             }
         }
 
         val uiFeesPaid : Boolean = {
-            if(fees(1)._2 > 0){ // UI fee is greater than 0
+            if(fees(1)._2 > 0){
                 val uiOutput : Box    = OUTPUTS(2)
                 allOf(
                     Coll(
@@ -49,7 +45,7 @@ export const hodlErg3 = `
                     )
                 )
             }else{
-                true // do nothing if ui fee doesn't end up greater than 0, prevents errors on low value bonds
+                true
             }
         }
         devFeesPaid && uiFeesPaid
