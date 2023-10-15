@@ -84,7 +84,7 @@
 		const myAddress = await ergo.get_change_address();
 		const height = await ergo.get_current_height();
 		
-		const myAss={tokenId:HODLERG3_TOKEN_ID , amount: $selected_treasure.price*10**9+""} //<---------------------
+		const myAss={tokenId:HODLERG3_TOKEN_ID , amount: $selected_treasure.price*10**9+""} 
 
 		const unsigned = await mintHodlErg3BoxTx(
 			myAddress,
@@ -93,11 +93,14 @@
 			myAss,  
 			$selected_treasure,
 		);
-		console.log (unsigned)
+		
 
 		const signed = await ergo.sign_tx(unsigned);
-
+		console.log (signed)
 		const transactionId = await ergo.submit_tx(signed);
+		console.log("transactionId:",transactionId)
+
+		notifier.info('Transaction submitted', 3000); //<--------------------
 
 		const unconfirmedSale = {
 			tokens: JSON.parse(
