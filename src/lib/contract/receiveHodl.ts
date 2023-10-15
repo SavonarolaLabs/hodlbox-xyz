@@ -30,7 +30,7 @@ export async function receiveHodlBoxTx(hodlBox: object, holderBase58PK: string, 
         uiFeeBase58PK
     )
 
-    const outputBoxes = [hodlerBox, devFeeAmount > 0n ? devFeeBox : undefined, uiFeeAmount > 0n ? uiFeeBox : undefined].filter(x => x)
+    const outputBoxes = [hodlerBox, devFeeBox, uiFeeBox]
 
     const unsignedMintTransaction = new TransactionBuilder(height)
         .configureSelector((selector) => selector.ensureInclusion(hodlBox.boxId))
