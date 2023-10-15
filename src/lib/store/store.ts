@@ -1,5 +1,5 @@
 import { fetchContractBoxes } from "$lib/api-explorer/explorer.js";
-import { CONTRACT_HODLERG3 } from "$lib/contract/compile.js";
+import { CONTRACT_HODL, CONTRACT_HODLERG3 } from "$lib/contract/compile.js";
 import { CONTRACT } from "$lib/contract/sellForErg.js";
 import { HODLERG3_TOKEN_ID } from "$lib/contract/settings.js";
 import { ErgoAddress } from "@fleet-sdk/core";
@@ -42,7 +42,28 @@ export function loadStoreFromLocalStorage() {
     }
 }
 
-export async function loadOffers() {
+async function loadERGOffers() {
+    const boxes = await fetchContractBoxes(CONTRACT_HODL);
+    boxes.forEach(b => {
+        if (b.assets?.length > 0 && b.assets[0].tokenId == HODLERG3_TOKEN_ID) {
+            b.treasure = ALL_TREASURES.find(t => b.assets[0].amount == t.price * 10 ** 9)
+            b.currency = 'hodlERG3';
+        } else {
+            if (b.value > 1 * 10 ** 9) {
+                b.treasure = ALL_TREASURES.find(t => b.value == t.price * 10 ** 9)
+                b.currency = 'ERG';
+            }
+        }
+        b.hodler = ErgoAddress.fromPublicKey(b.additionalRegisters.R6.serializedValue.substring(4)).toString()
+    })
+
+    offers.update(arr => {
+        return [...arr, ...boxes]
+    });
+    removeConfirmedBoxes(boxes);
+}
+
+async function loadHodlERG3Offers() {
     const boxes = await fetchContractBoxes(CONTRACT_HODLERG3);
     boxes.forEach(b => {
         if (b.assets?.length > 0 && b.assets[0].tokenId == HODLERG3_TOKEN_ID) {
@@ -59,6 +80,11 @@ export async function loadOffers() {
 
     offers.set(boxes);
     removeConfirmedBoxes(boxes);
+}
+
+export async function loadOffers() {
+    await loadHodlERG3Offers();
+    await loadERGOffers()
 }
 
 function removeConfirmedBoxes(confirmedBoxes) {
