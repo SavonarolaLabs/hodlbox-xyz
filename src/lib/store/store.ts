@@ -90,4 +90,4 @@ export const ALL_TREASURES = [
     },
 ]
 
-export const selected_treasure = writable(ALL_TREASURES[0]);
+export const selected_treasure:Writable<Treasure>= writable(ALL_TREASURES[0]);
