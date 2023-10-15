@@ -8,7 +8,7 @@
 >
 	<a href="/" class="flex items-center gap-2">
 		<img src="ship.png" alt="" class="w-16">
-		<div class="font-bold text-2xl">ErgoBay</div>
+		<div class="font-bold text-2xl">HodlBox</div>
 	</a>
 	<div class="flex items-center gap-4">
 		<WalletButton />

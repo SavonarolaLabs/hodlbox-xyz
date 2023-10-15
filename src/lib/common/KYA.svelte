@@ -1,7 +1,7 @@
 <div style="max-width: 900px;">
 	<div class="pl-1 uppercase font-bold text-slate-400 text-xl">Know Your Assumptions</div>
 	<div class="w-full mt-6 mb-4">
-		ErgoBay is an open source UI for interacting with contracts on the Ergo Blockchain.<br /><br />
+		HodlBox is an open source UI for interacting with contracts on the Ergo Blockchain.<br /><br />
 
 		<span class="font-bold text-slate-400">Notice that:</span>
 		<ul>
