@@ -4,9 +4,9 @@ import { SGroupElement, SInt, SLong, SSigmaProp } from "@fleet-sdk/serializer";
 import { eip0004Regs, type eip004Regs } from "./eip004utils.js"
 import { DEV_CONTRACT_PK, DEV_UI_PK } from "./settings.js";
 
-export async function mintHodlBoxTx(holderBase58PK: string, utxos: Array<any>, height: number, ergoAmount: bigint, contractBase58PK: string = DEV_CONTRACT_PK,  uiBase58PK: string = DEV_UI_PK): any {
+export async function mintHodlBoxTx(holderBase58PK: string, utxos: Array<any>, height: number, ergoAmount: bigint, devFeeBase58PK: string = DEV_CONTRACT_PK,  uiFeeBase58PK: string = DEV_UI_PK): any {
     const myAddr = ErgoAddress.fromBase58(holderBase58PK)
-    const uiAddr = ErgoAddress.fromBase58(uiBase58PK)
+    const uiAddr = ErgoAddress.fromBase58(uiFeeBase58PK)
 
     const targetHeight = 1101525
     const targetPrice = 600000000n
@@ -21,7 +21,7 @@ export async function mintHodlBoxTx(holderBase58PK: string, utxos: Array<any>, h
 
     const contractBox = new OutputBuilder(
         ergoAmount,
-        contractBase58PK
+        devFeeBase58PK
     ).setAdditionalRegisters({
         R4: SLong(targetRate).toHex(),
         R5: SInt(targetHeight).toHex(),
