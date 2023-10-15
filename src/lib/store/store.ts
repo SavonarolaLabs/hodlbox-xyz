@@ -15,6 +15,15 @@ export type UnconfirmedSale = {
     priceInErg: string
 }
 
+export type Treasure = {
+    id: number,
+    price: number,
+    img: string,
+    cid: string,
+    sha256: string,
+    name: string,
+}
+
 export const selected_wallet_ergo = writable('');
 export const utxos = writable([]);
 export const assets = writable([]);
