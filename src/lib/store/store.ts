@@ -33,34 +33,36 @@ export const assets = writable([]);
 
 export const offers = writable([]);
 
-export const unconfirmed_sales:Writable<Array<UnconfirmedSale>> = writable([]);
+export const unconfirmed_sales: Writable<Array<UnconfirmedSale>> = writable([]);
 
-export function loadStoreFromLocalStorage(){
+export function loadStoreFromLocalStorage() {
     const ergo_bay_unconfirmed_sales = localStorage.getItem('ergo_bay_unconfirmed_sales')
-    if(ergo_bay_unconfirmed_sales){
+    if (ergo_bay_unconfirmed_sales) {
         unconfirmed_sales.set(JSON.parse(ergo_bay_unconfirmed_sales))
     }
 }
 
-export async function loadOffers(){
+export async function loadOffers() {
     const boxes = await fetchContractBoxes(CONTRACT_HODLERG3);
-    boxes.forEach(b =>{
-        if(b.assets?.length > 0 && b.assets[0].tokenId == HODLERG3_TOKEN_ID){
-            b.treasure = ALL_TREASURES.find(t => b.assets[0].amount == t.price*10**9)
-        }else{
-            if(b.value > 1*10**9){
-                b.treasure = ALL_TREASURES.find(t => b.value == t.price*10**9)
+    boxes.forEach(b => {
+        if (b.assets?.length > 0 && b.assets[0].tokenId == HODLERG3_TOKEN_ID) {
+            b.treasure = ALL_TREASURES.find(t => b.assets[0].amount == t.price * 10 ** 9)
+            b.currency = 'hodlERG3';
+        } else {
+            if (b.value > 1 * 10 ** 9) {
+                b.treasure = ALL_TREASURES.find(t => b.value == t.price * 10 ** 9)
+                b.currency = 'ERG';
             }
         }
         b.hodler = ErgoAddress.fromPublicKey(b.additionalRegisters.R6.serializedValue.substring(4)).toString()
     })
-    
+
     offers.set(boxes);
     removeConfirmedBoxes(boxes);
 }
 
-function removeConfirmedBoxes(confirmedBoxes){
-    unconfirmed_sales.update(a =>{
+function removeConfirmedBoxes(confirmedBoxes) {
+    unconfirmed_sales.update(a => {
         return a.filter(x => !confirmedBoxes.some(box => box.transactionId == x.transactionId))
     })
 }
@@ -73,28 +75,28 @@ export const ALL_TREASURES = [
         cid: 'bafybeihui4r6ylwy2u7crtvhllwy4rnorop3icpgvks5edkyb47f3guziq',
         sha256: 'e8f26588981063e0bd9fd3f4b05b2f42aac53a0c17fd1e265b3f1eef27466b44',
         name: '$200.00 Hodlbox'
-    },{
+    }, {
         id: 1,
         price: 100,
         img: 'chest/100erg.png',
         cid: 'bafybeideasgh2la3p4c3pqvwjzcjevyxr6j7wawtqqfa6rc25a6ntogk5i',
         sha256: 'df338cc3cce006d349dd3f4c4ca97bc497733906e20afb178f982e343548989d',
         name: '$2,000.00 Hodlbox'
-    },{
+    }, {
         id: 2,
         price: 1000,
         img: 'chest/1000erg.png',
         cid: 'bafybeigkm4chflhvptckwprjmhvps5kcpuzevgjcthak5q435dv4os2x54',
         sha256: '5704bd829777b113026534fd24c8f0e89185090f6cd36b087532173ca9d26e5e',
         name: '$20,000.00 Hodlbox'
-    },{
+    }, {
         id: 3,
         price: 10000,
         img: 'chest/10000erg.png',
         cid: 'bafybeicihtoti7v4ul5l4aisp2ccb7feoatoqyjtxw4clw6jk676gfkuhm',
         sha256: 'ed40bd94ca81b53e4fe930be0e0d81e1f3fabf336ba5c26311ec55e633542d59',
         name: '$200,000.00 Hodlbox'
-    },{
+    }, {
         id: 4,
         price: 1.27,
         img: 'chest/1.27erg.png',
@@ -109,6 +111,6 @@ const CURRENCIES = [
     'hodlERG3'
 ]
 
-export const selected_treasure:Writable<Treasure> = writable(ALL_TREASURES[0]);
+export const selected_treasure: Writable<Treasure> = writable(ALL_TREASURES[0]);
 
-export const selected_currency:Writable<string>   =  writable(CURRENCIES[0]);
+export const selected_currency: Writable<string> = writable(CURRENCIES[0]);

@@ -4,6 +4,6 @@
 </script>
 
 
-{#each $offers as offer}
+{#each $offers.filter(o => o.currency) as offer}
 <BuyWidget {offer}></BuyWidget>
 {/each}
