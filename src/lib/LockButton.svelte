@@ -1,8 +1,11 @@
 <script lang="ts">
-	import { unconfirmed_sales, selected_wallet_ergo, utxos, assets } from '$lib/store/store.ts';
+	import { unconfirmed_sales, selected_wallet_ergo, utxos, assets, selected_treasure } from '$lib/store/store.ts';
 	import { notifier } from '@beyonk/svelte-notifications';
 	import { sellTx } from './contract/sellTx.js';
 	import { CONTRACT, DEV_PK } from './contract/sellForErg.js';
+	import { mintHodlErg3BoxTx } from './contract/sendToHodl_hodlerg3.js';
+	import { HODLERG3_TOKEN_ID } from './contract/settings.js';
+	import { ErgoAddress } from '@fleet-sdk/core';
 
 	let editAssets = false;
 	let additionalAssets: Array<Token> = [];
@@ -69,26 +72,28 @@
 			notifier.info('Connect a wallet.', 1500);
 			return;
 		}
-		if (selectedAssets.length < 1) {
-			notifier.info('Add Tokens.', 1500);
-			return;
-		}
-		if (priceInErg == undefined) {
-			notifier.info('Set a price.', 1500);
+		const boxes = await ergo.get_utxos();
+		const ergoBalance = BigInt(await ergo.get_balance());
+		const hodlErg3Balance = boxes.flatMap(b=>b.assets).reduce((a,ass)=>a+(ass.tokenId==HODLERG3_TOKEN_ID?BigInt(ass.amount):0n),0n);
+
+		if(hodlErg3Balance<BigInt($selected_treasure.price*10**9)){
+			notifier.info('Not enough Tokens.', 1500);
 			return;
 		}
 
 		const myAddress = await ergo.get_change_address();
 		const height = await ergo.get_current_height();
-		const unsigned = sellTx(
-			CONTRACT,
+		
+		const myAss={tokenId:HODLERG3_TOKEN_ID , amount: $selected_treasure.price*10**9+""} //<---------------------
+
+		const unsigned = mintHodlErg3BoxTx(
 			myAddress,
 			$utxos,
 			height,
-			DEV_PK,
-			selectedAssets,
-			BigInt(priceInErg * 10 ** 9)
+			myAss,  //<---------------------
+			$selected_treasure,
 		);
+
 		const signed = await ergo.sign_tx(unsigned);
 
 		const transactionId = await ergo.submit_tx(signed);
@@ -124,7 +129,7 @@
 
 <div class="mt-4 p-4 box w-full flex flex-wrap backdrop-blur-md bg-opacity-10 shadow-sm">
 	<div class="flex flex-col w-full flex">
-		<button class="btn p-4" style="width:230px;" on:click={lockAssets}> lock 10.000 ERG </button>
+		<button class="btn p-4" style="width:230px;" on:click={lockAssets}> Lock {$selected_treasure.price} ERG </button>
 		<div class="flex mt-2">
 			<button class="inactive pl-4 pr-2 py-1 option-left">hodlERG3</button>
 			<div style="height:100%; width:1px; background:gray;"></div>
