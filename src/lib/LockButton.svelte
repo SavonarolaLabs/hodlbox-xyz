@@ -123,13 +123,37 @@
 </script>
 
 <div class="mt-4 p-4 box w-full flex flex-wrap backdrop-blur-md bg-opacity-10 shadow-sm">
-	<div class="w-full flex">
-		<button class="btn p-4" style="width:230px;" on:click={lockAssets}> lock 10.000 hodlERG3 </button>
+	<div class="flex flex-col w-full flex">
 		<button class="btn p-4" style="width:230px;" on:click={lockAssets}> lock 10.000 ERG </button>
+		<div class="flex mt-2">
+			<button class="inactive pl-4 pr-2 py-1 option-left">hodlERG3</button>
+			<div style="height:100%; width:1px; background:gray;"></div>
+			<button class="  active pr-4 pl-2 py-1 option-right">ERG</button>
+		</div>
 	</div>
 </div>
 
 <style>
+	.active{
+		background-color: #d1d1d1;
+		color: #263962;
+	}
+	.active:hover{
+		background-color: #eeeeee;
+	}
+	.inactive{
+		background-color: #08080873;
+	}
+	.option-left{
+		border-top-left-radius: 10px;
+		border-bottom-left-radius: 10px;
+	}
+	.option-right{
+		border-top-right-radius: 10px;
+		border-bottom-right-radius: 10px;
+	}
+
+
 	.box {
 		max-width: 600px;
 		background: rgba(16, 16, 16, 0.2);

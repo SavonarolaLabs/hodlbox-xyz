@@ -1,13 +1,12 @@
 <script lang="ts">
-	import LockButton from "./LockButton.svelte";
-	import AllOffers from "./AllOffers.svelte";
-	import AllUnconfirmedSales from "./AllUnconfirmedSales.svelte";
-	import { unconfirmed_sales } from "./store/store.js";
+	import LockButton from "$lib/LockButton.svelte";
+	import TreasureSelection from "./TreasureSelection.svelte";
 
+    
 </script>
 
 <div class="bg-main grow flex flex-col items-center gap-5" style="padding-top:80px;">
-    
+    <TreasureSelection></TreasureSelection>
     <LockButton></LockButton>
 </div>
 

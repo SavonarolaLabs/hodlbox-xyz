@@ -41,3 +41,17 @@ function removeConfirmedBoxes(confirmedBoxes){
         return a.filter(x => !confirmedBoxes.some(box => box.transactionId == x.transactionId))
     })
 }
+
+export const ALL_TREASURES = [
+    {
+        img: 'chest/10erg.png',
+    },{
+        img: 'chest/100erg.png',
+    },{
+        img: 'chest/1000erg.png',
+    },{
+        img: 'chest/10000erg.png',
+    },{
+        img: 'chest/1.27erg.png',
+    },
+]
