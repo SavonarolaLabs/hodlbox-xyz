@@ -10,9 +10,12 @@ export async function mintHodlBoxTx(holderBase58PK: string, utxos: Array<any>, h
     const myAddr = ErgoAddress.fromBase58(holderBase58PK)
     const uiAddr = ErgoAddress.fromBase58(uiFeeBase58PK)
 
-    const targetHeight = 1_372_200 // 2024-10-15  
+    //const targetHeight = 1_372_200 // 2024-10-15  
     const targetPrice = 20_000_000_000n
     const targetRate = 10n ** 18n / targetPrice
+
+    //test setup:
+    const targetHeight = 1_113_026 // 2024-10-15   //<----------------------------
 
     const mintDate = new Date().toISOString().split("T")[0]
     const ergoAmount = BigInt(treasure.price)
