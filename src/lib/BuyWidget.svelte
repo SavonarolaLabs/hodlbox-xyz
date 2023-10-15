@@ -46,20 +46,20 @@
 	}
 </script>
 
-<div class="p-4 w-full flex  flex-col justify-center items-center">
-        <img src="{offer.treasure.img}" alt="" style="width:200px;height:auto;">
-		<div class="flex gap-2">
-			{#if offer.currency == 'hodlERG3'}
-                {offer.treasure.price} HodlERG3
-			{/if}
-		</div>
-		
-		<div class="text-slate-500">
-			<a href="https://explorer.ergoplatform.com/en/addresses/{offer.hodler}">{offer.hodler.substr(0, 3)}...{offer.hodler.substr(
-			offer.hodler.length - 3,
-			offer.hodler.length - 1
-		)}
-		</a></div>
+<div class="p-4 w-full flex flex-col justify-center items-center">
+	<img src={offer.treasure.img} alt="" style="width:200px;height:auto;" />
+	<div class="flex gap-2">
+		{offer.treasure.name}
+	</div>
+
+	<div class="text-slate-500">
+		<a href="https://explorer.ergoplatform.com/en/addresses/{offer.hodler}"
+			>{offer.hodler.substr(0, 3)}...{offer.hodler.substr(
+				offer.hodler.length - 3,
+				offer.hodler.length - 1
+			)}
+		</a>
+	</div>
 </div>
 
 <style>
