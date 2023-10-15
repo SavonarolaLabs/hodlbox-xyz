@@ -5,7 +5,7 @@
     
 </script>
 
-<div class="bg-main grow flex flex-col items-center gap-5" style="padding-top:80px;">
+<div class="bg-main grow flex flex-col  justify-center items-center gap-5" style="padding-top:80px;">
     <TreasureSelection></TreasureSelection>
     <LockButton></LockButton>
 </div>
