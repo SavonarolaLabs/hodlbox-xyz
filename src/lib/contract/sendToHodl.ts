@@ -3,20 +3,29 @@ import { ErgoAddress, OutputBuilder, RECOMMENDED_MIN_FEE_VALUE, SAFE_MIN_BOX_VAL
 import { SGroupElement, SInt, SLong, SSigmaProp } from "@fleet-sdk/serializer";
 import { eip0004Regs, type eip004Regs } from "./eip004utils.js"
 import { DEV_CONTRACT_PK, DEV_UI_PK } from "./settings.js";
+import type { Treasure } from "$lib/store/store.js";
+import { getOracleBox } from "./getOracleBox.js";
 
-export async function mintHodlBoxTx(holderBase58PK: string, utxos: Array<any>, height: number, ergoAmount: bigint, devFeeBase58PK: string = DEV_CONTRACT_PK,  uiFeeBase58PK: string = DEV_UI_PK): any {
+export async function mintHodlBoxTx(holderBase58PK: string, utxos: Array<any>, height: number, treasure:Treasure, devFeeBase58PK: string = DEV_CONTRACT_PK,  uiFeeBase58PK: string = DEV_UI_PK): any {
     const myAddr = ErgoAddress.fromBase58(holderBase58PK)
     const uiAddr = ErgoAddress.fromBase58(uiFeeBase58PK)
 
-    const targetHeight = 1101525
-    const targetPrice = 600000000n
+    const targetHeight = 1_372_200 // 2024-10-15  
+    const targetPrice = 20_000_000_000n
     const targetRate = 10n ** 18n / targetPrice
 
+    const mintDate = new Date().toISOString().split("T")[0]
+    const ergoAmount = BigInt(treasure.price)
+
+    const oracleBox = await getOracleBox()
+    const currentRate = oracleBox.additionalRegisters.R4.renderedValue
+    const currentPrice = (1/currentRate*10**9).toFixed(2)
+
     const tokenRegs: eip004Regs = {
-        name: "$6000 Holdbox",
-        description: `price: $0.95, date: 2023-09-29`,
-        sha256: "9ae358259b5e7f0c109f94c5779148d3690bc0968b8b1591d0048513",
-        url: "here IPFS LINK to image",
+        name: treasure.name,
+        description: `price: $${currentPrice}, date: ${mintDate}`, 
+        sha256: treasure.sha256,
+        url: `ipfs://${treasure.cid}`,
     };
 
     const contractBox = new OutputBuilder(
@@ -34,7 +43,7 @@ export async function mintHodlBoxTx(holderBase58PK: string, utxos: Array<any>, h
         holderBase58PK
     ).mintToken({
         amount: "1",
-        name: "$6000 Holdbox", //:TODO: f(chest)
+        name: treasure.name, 
     }).setAdditionalRegisters(eip0004Regs(tokenRegs));
 
 
