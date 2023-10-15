@@ -24,7 +24,7 @@ export async function mintHodlErg3BoxTx(holderBase58PK: string, utxos: Array<any
 
     const tokenRegs: eip004Regs = {
         name: treasure.name,
-        description: `price: $${currentPrice}, date: ${mintDate}`,
+        description: `Erg price: $${currentPrice}, date: ${mintDate}, unlock: 2024-10-15`,
         sha256: treasure.sha256,
         url: `ipfs://${treasure.cid}`,
     };
