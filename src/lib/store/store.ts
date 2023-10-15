@@ -33,12 +33,12 @@ export const assets = writable([]);
 
 export const offers = writable([]);
 
-export const unconfirmed_sales: Writable<Array<UnconfirmedSale>> = writable([]);
+export const unconfirmed_mints: Writable<Array<UnconfirmedSale>> = writable([]);
 
 export function loadStoreFromLocalStorage() {
-    const ergo_bay_unconfirmed_sales = localStorage.getItem('ergo_bay_unconfirmed_sales')
-    if (ergo_bay_unconfirmed_sales) {
-        unconfirmed_sales.set(JSON.parse(ergo_bay_unconfirmed_sales))
+    const ergo_bay_unconfirmed_mints = localStorage.getItem('ergo_bay_unconfirmed_mints')
+    if (ergo_bay_unconfirmed_mints) {
+        unconfirmed_mints.set(JSON.parse(ergo_bay_unconfirmed_mints))
     }
 }
 
@@ -62,7 +62,7 @@ export async function loadOffers() {
 }
 
 function removeConfirmedBoxes(confirmedBoxes) {
-    unconfirmed_sales.update(a => {
+    unconfirmed_mints.update(a => {
         return a.filter(x => !confirmedBoxes.some(box => box.transactionId == x.transactionId))
     })
 }

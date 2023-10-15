@@ -1,7 +1,7 @@
 <script lang="ts">
 	import AllOffers from "./AllOffers.svelte";
 	import AllUnconfirmedSales from "./AllUnconfirmedSales.svelte";
-	import { unconfirmed_sales } from "./store/store.js";
+	import { unconfirmed_mints } from "./store/store.js";
 
 </script>
 

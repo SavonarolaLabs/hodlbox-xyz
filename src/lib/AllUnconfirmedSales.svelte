@@ -1,7 +1,7 @@
 <script lang="ts">
     import UnconfirmedWidget from "./UnconfirmedWidget.svelte"
-    import {unconfirmed_sales} from "$lib/store/store.js"
+    import {unconfirmed_mints} from "$lib/store/store.js"
 </script>
-{#each $unconfirmed_sales as sale}
-        <UnconfirmedWidget {sale}></UnconfirmedWidget>
+{#each $unconfirmed_mints as mint}
+        <UnconfirmedWidget {mint}></UnconfirmedWidget>
 {/each}

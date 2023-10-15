@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { unconfirmed_sales, selected_wallet_ergo, utxos, assets, selected_treasure, selected_currency } from '$lib/store/store.ts';
+	import { unconfirmed_mints, selected_wallet_ergo, utxos, assets, selected_treasure, selected_currency } from '$lib/store/store.ts';
 	import { notifier } from '@beyonk/svelte-notifications';
 	import { sellTx } from './contract/sellTx.js';
 	import { CONTRACT, DEV_PK } from './contract/sellForErg.js';
@@ -103,24 +103,18 @@
 		notifier.info('Transaction submitted', 3000); //<--------------------
 
 		const unconfirmedSale = {
-			tokens: JSON.parse(
-				JSON.stringify(
-					selectedAssets.map((a) => {
-						return { tokenId: a.tokenId, amount: a.amount.toString() };
-					})
-				)
-			),
-			seller: myAddress,
+			treasure: $selected_treasure,
+			currency: $selected_currency,
+			hodler: myAddress,
 			tx: signed,
 			transactionId,
-			priceInErg
 		};
 
-		unconfirmed_sales.update((a) => {
+		unconfirmed_mints.update((a) => {
 			a.push(unconfirmedSale);
 			return a;
 		});
-		localStorage.setItem('ergo_bay_unconfirmed_sales', JSON.stringify($unconfirmed_sales));
+		localStorage.setItem('ergo_bay_unconfirmed_mints', JSON.stringify($unconfirmed_mints));
 
 		cleanUpSaleWidget();
 

@@ -1,40 +1,17 @@
 <script lang="ts">
-	import { selected_wallet_ergo, utxos, assets } from '$lib/store/store.ts';
-	import { notifier } from '@beyonk/svelte-notifications';
-	import { sellTx } from './contract/sellTx.js';
-	import { CONTRACT, DEV_PK } from './contract/sellForErg.js';
-
-    export let sale:UnconfirmedSale
+    export let mint:any
 </script>
 
-<div class="p-4 box w-full flex flex-wrap backdrop-blur-md bg-opacity-10 shadow-sm">
-    <div class="grow flex flex-col justify-center">
-		{#each sale.tokens as token}
-            <div class="flex gap-2">
-                <div class="font-mono">{token.tokenId.substr(0, 3)}...{token.tokenId.substr(
-                    token.tokenId.length - 3,
-                    token.tokenId.length - 1
-                )}</div>
-                <div>
-                    {token.amount}
-                </div>
-            </div>
-        {/each}
-	</div>
+<div class="p-4 flex flex-col items-center">
+    <img src="{mint.treasure.img}" alt="" style="width:200px;" class="blink">
     <div class="">
-        <div>confirming...</div>
-        <a target="_blank" href="https://explorer.ergoplatform.com/en/transactions/{sale.transactionId}" class="underline">
-            Transaction ID
+        <div>minting...</div>
+        <a target="_blank" href="https://explorer.ergoplatform.com/en/transactions/{mint.transactionId}" class="underline">
+            transactionID
         </a>
     </div>
 </div>
 
 <style>
-    .box{
-        max-width: 600px;
-        background: rgba(16, 16, 16, 0.0);
-        border: 1px solid #80808045;
-        border-top: 2px solid #a9a9a945;
-        color: rgb(144, 144, 144);
-    }
+    .blink { animation: blinkMe 3s linear infinite; } @keyframes blinkMe { 0% { opacity: 0.4; } 50% { opacity: 0.8; } 100% { opacity: 0.4; } } 
 </style>
