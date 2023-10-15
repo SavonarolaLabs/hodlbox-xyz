@@ -64,7 +64,7 @@
 		selectedAssets = [];
 	}
 
-	async function sellAssets() {
+	async function lockAssets() {
 		if (!$selected_wallet_ergo || !window.ergoConnector[$selected_wallet_ergo]?.isConnected) {
 			notifier.info('Connect a wallet.', 1500);
 			return;
@@ -123,55 +123,10 @@
 </script>
 
 <div class="mt-4 p-4 box w-full flex flex-wrap backdrop-blur-md bg-opacity-10 shadow-sm">
-	<div class="w-full flex flex-col my-2">
-		{#each selectedAssets as token}
-			<div class="w-full flex items-center gap-2 px-2 py-1">
-				<div class="font-mono">
-					{token.tokenId.substr(0, 3)}...{token.tokenId.substr(
-						token.tokenId.length - 3,
-						token.tokenId.length - 1
-					)}
-				</div>
-				<div>
-					<input class="p-2 py-1" type="number" min="1" bind:value={token.amount} />
-				</div>
-				<button on:click={() => removeToken(token)}>remove</button>
-			</div>
-		{/each}
-	</div>
 	<div class="w-full flex">
-		<button class="grow p-4" on:click={addAssetsToggle}>
-			{#if editAssets}
-				-
-			{:else}
-				+
-			{/if}
-			add tokens
-		</button>
-		<div class="flex flex-col gap-2 justify-end" style="width:180px">
-			<div>
-				<input class="p-2 w-full" type="text" placeholder="Price in ERG" bind:value={priceInErg}/>
-			</div>
-			<div class="flex flex-col justify-end">
-				<button class="btn p-4" on:click={sellAssets}> sell </button>
-			</div>
-		</div>
+		<button class="btn p-4" style="width:230px;" on:click={lockAssets}> lock 10.000 hodlERG3 </button>
+		<button class="btn p-4" style="width:230px;" on:click={lockAssets}> lock 10.000 ERG </button>
 	</div>
-	{#if editAssets}
-		<div class="w-full assets mt-4">
-			{#each additionalAssets as token}
-				<button class="px-2 py-1 w-full flex justify-between gap-2" on:click={() => selectToken(token)}>
-					<div class="font-mono">
-						{token.tokenId.substr(0, 3)}...{token.tokenId.substr(
-							token.tokenId.length - 3,
-							token.tokenId.length - 1
-						)}
-					</div>
-					<div>{token.amount}</div>
-				</button>
-			{/each}
-		</div>
-	{/if}
 </div>
 
 <style>

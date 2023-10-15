@@ -1,7 +1,9 @@
 <script lang="ts">
 	import Landing from "$lib/Landing.svelte"
+	import LockedBoxes from "$lib/LockedBoxes.svelte"
 	import { loadOffers, loadStoreFromLocalStorage } from "$lib/store/store.js";
 	import { onMount } from "svelte";
+	
 	let loading = false;
 
 	onMount(init)
@@ -20,6 +22,7 @@
 	</div>
 	{:else}
 		<Landing></Landing>
+		<LockedBoxes></LockedBoxes>
 	{/if}
 </div>
 
