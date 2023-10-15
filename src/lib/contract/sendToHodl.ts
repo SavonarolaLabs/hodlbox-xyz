@@ -2,11 +2,12 @@ import { first } from "@fleet-sdk/common";
 import { ErgoAddress, OutputBuilder, RECOMMENDED_MIN_FEE_VALUE, SAFE_MIN_BOX_VALUE, TransactionBuilder } from "@fleet-sdk/core";
 import { SGroupElement, SInt, SLong, SSigmaProp } from "@fleet-sdk/serializer";
 import { eip0004Regs, type eip004Regs } from "./eip004utils.js"
-import { DEV_CONTRACT_PK, DEV_UI_PK } from "./settings.js";
+import { DEV_UI_PK } from "./settings.js";
 import type { Treasure } from "$lib/store/store.js";
 import { getOracleBox } from "./getOracleBox.js";
+import { CONTRACT_HODL } from "./compile.js";
 
-export async function mintHodlBoxTx(holderBase58PK: string, utxos: Array<any>, height: number, treasure:Treasure, devFeeBase58PK: string = DEV_CONTRACT_PK,  uiFeeBase58PK: string = DEV_UI_PK): any {
+export async function mintHodlBoxTx(holderBase58PK: string, utxos: Array<any>, height: number, treasure:Treasure, uiFeeBase58PK: string = DEV_UI_PK): any {
     const myAddr = ErgoAddress.fromBase58(holderBase58PK)
     const uiAddr = ErgoAddress.fromBase58(uiFeeBase58PK)
 
@@ -18,7 +19,7 @@ export async function mintHodlBoxTx(holderBase58PK: string, utxos: Array<any>, h
     const targetHeight = 1_113_026 // 2024-10-15   //<----------------------------
 
     const mintDate = new Date().toISOString().split("T")[0]
-    const ergoAmount = BigInt(treasure.price)
+    const ergoAmount = BigInt(treasure.price*10**9)
 
     const oracleBox = await getOracleBox()
     const currentRate = oracleBox.additionalRegisters.R4.renderedValue
@@ -26,14 +27,14 @@ export async function mintHodlBoxTx(holderBase58PK: string, utxos: Array<any>, h
 
     const tokenRegs: eip004Regs = {
         name: treasure.name,
-        description: `price: $${currentPrice}, date: ${mintDate}`, 
+        description: `Erg price: $${currentPrice}, date: ${mintDate}, unlock: 2024-10-15`,
         sha256: treasure.sha256,
         url: `ipfs://${treasure.cid}`,
     };
 
     const contractBox = new OutputBuilder(
         ergoAmount,
-        devFeeBase58PK
+        CONTRACT_HODL  
     ).setAdditionalRegisters({
         R4: SLong(targetRate).toHex(),
         R5: SInt(targetHeight).toHex(),
