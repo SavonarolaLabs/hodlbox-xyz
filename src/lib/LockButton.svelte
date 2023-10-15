@@ -1,11 +1,19 @@
 <script lang="ts">
-	import { unconfirmed_mints, selected_wallet_ergo, utxos, assets, selected_treasure, selected_currency } from '$lib/store/store.ts';
+	import {
+		unconfirmed_mints,
+		selected_wallet_ergo,
+		utxos,
+		assets,
+		selected_treasure,
+		selected_currency
+	} from '$lib/store/store.ts';
 	import { notifier } from '@beyonk/svelte-notifications';
 	import { sellTx } from './contract/sellTx.js';
 	import { CONTRACT, DEV_PK } from './contract/sellForErg.js';
 	import { mintHodlErg3BoxTx } from './contract/sendToHodl_hodlerg3.js';
 	import { HODLERG3_TOKEN_ID } from './contract/settings.js';
 	import { ErgoAddress } from '@fleet-sdk/core';
+	import { mintHodlBoxTx } from './contract/sendToHodl.js';
 
 	let editAssets = false;
 	let additionalAssets: Array<Token> = [];
@@ -74,40 +82,57 @@
 		}
 		const boxes = await ergo.get_utxos();
 		const ergoBalance = BigInt(await ergo.get_balance());
-		const hodlErg3Balance = boxes.flatMap(b=>b.assets).reduce((a,ass)=>a+(ass.tokenId==HODLERG3_TOKEN_ID?BigInt(ass.amount):0n),0n);
-
-		if(hodlErg3Balance<BigInt($selected_treasure.price*10**9)){
-			notifier.info('Not enough Tokens.', 1500);
-			return;
-		}
+		const hodlErg3Balance = boxes
+			.flatMap((b) => b.assets)
+			.reduce((a, ass) => a + (ass.tokenId == HODLERG3_TOKEN_ID ? BigInt(ass.amount) : 0n), 0n);
 
 		const myAddress = await ergo.get_change_address();
 		const height = await ergo.get_current_height();
-		
-		const myAss={tokenId:HODLERG3_TOKEN_ID , amount: $selected_treasure.price*10**9+""} 
+		let unsigned
 
-		const unsigned = await mintHodlErg3BoxTx(
-			myAddress,
-			$utxos,
-			height,
-			myAss,  
-			$selected_treasure,
-		);
-		
+		if ($selected_currency == 'ERG') {
+			if (ergoBalance< BigInt($selected_treasure.price * 10 ** 9)){
+				notifier.info('Not enough Erg.', 1500);
+				return;
+			}
+			
+			 unsigned = await mintHodlBoxTx(
+				myAddress,
+				$utxos,
+				height,
+				$selected_treasure
+			);
+
+		} else {
+			if (hodlErg3Balance < BigInt($selected_treasure.price * 10 ** 9)) {
+				notifier.info('Not enough Tokens.', 1500);
+				return;
+			}
+
+			const myAss = { tokenId: HODLERG3_TOKEN_ID, amount: $selected_treasure.price * 10 ** 9 + '' };
+			unsigned = await mintHodlErg3BoxTx(
+				myAddress,
+				$utxos,
+				height,
+				myAss,
+				$selected_treasure
+			);
+
+		}
 
 		const signed = await ergo.sign_tx(unsigned);
-		console.log (signed)
+		console.log(signed);
 		const transactionId = await ergo.submit_tx(signed);
-		console.log("transactionId:",transactionId)
+		console.log('transactionId:', transactionId);
 
-		notifier.info('Transaction submitted', 3000); //<--------------------
+		notifier.info('Transaction submitted', 3000);
 
 		const unconfirmedSale = {
 			treasure: $selected_treasure,
 			currency: $selected_currency,
 			hodler: myAddress,
 			tx: signed,
-			transactionId,
+			transactionId
 		};
 
 		unconfirmed_mints.update((a) => {
@@ -126,42 +151,53 @@
 </script>
 
 <div class="mt-4 p-4 box w-full flex flex-col items-center justify-center">
-		<button class="btn p-4" style="width:230px;" on:click={lockAssets}> Lock {$selected_treasure.price} {$selected_currency} </button>
-		<div class="flex mt-2">
-			<button class:inactive={$selected_currency!='hodlERG3'} class:active={$selected_currency=='hodlERG3'} class="pl-4 pr-2 py-1 option-left" on:click={()=>selected_currency.set('hodlERG3')}>hodlERG3</button>
-			<div style="height:100%; width:1px; background:gray;"></div>
-			<button class:inactive={$selected_currency!='ERG'} class:active={$selected_currency=='ERG'} class="pr-4 pl-2 py-1 option-right" on:click={()=>selected_currency.set('ERG')}>ERG</button>
-		</div>
+	<button class="btn p-4" style="width:230px;" on:click={lockAssets}>
+		Lock {$selected_treasure.price}
+		{$selected_currency}
+	</button>
+	<div class="flex mt-2">
+		<button
+			class:inactive={$selected_currency != 'hodlERG3'}
+			class:active={$selected_currency == 'hodlERG3'}
+			class="pl-4 pr-2 py-1 option-left"
+			on:click={() => selected_currency.set('hodlERG3')}>hodlERG3</button
+		>
+		<div style="height:100%; width:1px; background:gray;" />
+		<button
+			class:inactive={$selected_currency != 'ERG'}
+			class:active={$selected_currency == 'ERG'}
+			class="pr-4 pl-2 py-1 option-right"
+			on:click={() => selected_currency.set('ERG')}>ERG</button
+		>
+	</div>
 </div>
 
 <style>
-	.active{
+	.active {
 		background-color: #d1d1d1;
 		color: #263962;
 		border: 1px solid gray;
 	}
-	.active:hover{
+	.active:hover {
 		background-color: #eeeeee;
 	}
-	.inactive{
+	.inactive {
 		background-color: #08080873;
 		border: 1px solid gray;
 	}
-	.option-left{
+	.option-left {
 		border-top-left-radius: 10px;
 		border-bottom-left-radius: 10px;
 	}
-	.option-right{
+	.option-right {
 		border-top-right-radius: 10px;
 		border-bottom-right-radius: 10px;
 	}
 
-
-
-	.assets>button:nth-child(even){
+	.assets > button:nth-child(even) {
 		background-color: rgba(255, 255, 255, 0.065);
 	}
-	.assets>button:hover{
+	.assets > button:hover {
 		background-color: rgba(255, 255, 255, 0.17);
 	}
 </style>
