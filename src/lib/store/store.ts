@@ -1,6 +1,8 @@
 import { fetchContractBoxes } from "$lib/api-explorer/explorer.js";
 import { CONTRACT_HODLERG3 } from "$lib/contract/compile.js";
 import { CONTRACT } from "$lib/contract/sellForErg.js";
+import { HODLERG3_TOKEN_ID } from "$lib/contract/settings.js";
+import { ErgoAddress } from "@fleet-sdk/core";
 import { writable, type Writable } from "svelte/store";
 
 export type Token = {
@@ -42,6 +44,17 @@ export function loadStoreFromLocalStorage(){
 
 export async function loadOffers(){
     const boxes = await fetchContractBoxes(CONTRACT_HODLERG3);
+    boxes.forEach(b =>{
+        if(b.assets?.length > 0 && b.assets[0].tokenId == HODLERG3_TOKEN_ID){
+            b.treasure = ALL_TREASURES.find(t => b.assets[0].amount == t.price*10**9)
+        }else{
+            if(b.value > 1*10**9){
+                b.treasure = ALL_TREASURES.find(t => b.value == t.price*10**9)
+            }
+        }
+        b.hodler = ErgoAddress.fromPublicKey(b.additionalRegisters.R6.serializedValue.substring(4)).toString()
+    })
+    
     offers.set(boxes);
     removeConfirmedBoxes(boxes);
 }
