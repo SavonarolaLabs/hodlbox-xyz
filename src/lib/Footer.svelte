@@ -19,13 +19,13 @@
 	<div class="flex flex-col gap-4">
 		<div class="text-slate-500 font-bold">Open Source</div>
 		<div>
-			<a href="https://github.com/SavonarolaLabs/ergobay-org">Web Interface</a>
+			<a href="https://github.com/SavonarolaLabs/hodlbox-xyz">Web Interface</a>
 		</div>
 		<div>
-			<a href="https://github.com/SavonarolaLabs/ergobay-org/blob/main/src/lib/contract/sellForErg.ts">Contract</a>
+			<a href="https://github.com/SavonarolaLabs/hodlbox-xyz/blob/main/src/lib/contract/hodl.ts">Contract Erg</a>
 		</div>
 		<div>
-			<a href="https://github.com/SavonarolaLabs/ergo-web-template">Web Template</a>
+			<a href="https://github.com/SavonarolaLabs/hodlbox-xyz/blob/main/src/lib/contract/hodl_hodlerg3.ts">Contract HodlERG3</a>
 		</div>
 	</div>
     <div class="flex flex-col gap-4">
