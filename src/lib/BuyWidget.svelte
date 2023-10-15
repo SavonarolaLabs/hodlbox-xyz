@@ -53,6 +53,13 @@
                 {offer.treasure.price} HodlERG3
 			{/if}
 		</div>
+		
+		<div class="text-slate-500">
+			<a href="https://explorer.ergoplatform.com/en/addresses/{offer.hodler}">{offer.hodler.substr(0, 3)}...{offer.hodler.substr(
+			offer.hodler.length - 3,
+			offer.hodler.length - 1
+		)}
+		</a></div>
 </div>
 
 <style>
