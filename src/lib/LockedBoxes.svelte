@@ -13,7 +13,7 @@
 <style>
     .bg-main{
         min-height: 100vh;
-        background-image: url(bg/1px.png);
+        background-image: url('https://hodlbox.xyz/bg/1px.png');
         background-size: cover;
         background-repeat-x: repeat;
     }
