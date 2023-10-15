@@ -86,13 +86,14 @@
 		
 		const myAss={tokenId:HODLERG3_TOKEN_ID , amount: $selected_treasure.price*10**9+""} //<---------------------
 
-		const unsigned = mintHodlErg3BoxTx(
+		const unsigned = await mintHodlErg3BoxTx(
 			myAddress,
 			$utxos,
 			height,
-			myAss,  //<---------------------
+			myAss,  
 			$selected_treasure,
 		);
+		console.log (unsigned)
 
 		const signed = await ergo.sign_tx(unsigned);
 
