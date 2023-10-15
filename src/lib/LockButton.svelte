@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { unconfirmed_sales, selected_wallet_ergo, utxos, assets, selected_treasure } from '$lib/store/store.ts';
+	import { unconfirmed_sales, selected_wallet_ergo, utxos, assets, selected_treasure, selected_currency } from '$lib/store/store.ts';
 	import { notifier } from '@beyonk/svelte-notifications';
 	import { sellTx } from './contract/sellTx.js';
 	import { CONTRACT, DEV_PK } from './contract/sellForErg.js';
@@ -127,27 +127,27 @@
 	$: loadWalletBoxes($selected_wallet_ergo);
 </script>
 
-<div class="mt-4 p-4 box w-full flex flex-wrap backdrop-blur-md bg-opacity-10 shadow-sm">
-	<div class="flex flex-col w-full flex">
-		<button class="btn p-4" style="width:230px;" on:click={lockAssets}> Lock {$selected_treasure.price} ERG </button>
+<div class="mt-4 p-4 box w-full flex flex-col items-center justify-center">
+		<button class="btn p-4" style="width:230px;" on:click={lockAssets}> Lock {$selected_treasure.price} {$selected_currency} </button>
 		<div class="flex mt-2">
-			<button class="inactive pl-4 pr-2 py-1 option-left">hodlERG3</button>
+			<button class:inactive={$selected_currency!='hodlERG3'} class:active={$selected_currency=='hodlERG3'} class="pl-4 pr-2 py-1 option-left" on:click={()=>selected_currency.set('hodlERG3')}>hodlERG3</button>
 			<div style="height:100%; width:1px; background:gray;"></div>
-			<button class="  active pr-4 pl-2 py-1 option-right">ERG</button>
+			<button class:inactive={$selected_currency!='ERG'} class:active={$selected_currency=='ERG'} class="pr-4 pl-2 py-1 option-right" on:click={()=>selected_currency.set('ERG')}>ERG</button>
 		</div>
-	</div>
 </div>
 
 <style>
 	.active{
 		background-color: #d1d1d1;
 		color: #263962;
+		border: 1px solid gray;
 	}
 	.active:hover{
 		background-color: #eeeeee;
 	}
 	.inactive{
 		background-color: #08080873;
+		border: 1px solid gray;
 	}
 	.option-left{
 		border-top-left-radius: 10px;
@@ -159,12 +159,7 @@
 	}
 
 
-	.box {
-		max-width: 600px;
-		background: rgba(16, 16, 16, 0.2);
-		border: 1px solid #80808045;
-		border-top: 2px solid #a9a9a945;
-	}
+
 	.assets>button:nth-child(even){
 		background-color: rgba(255, 255, 255, 0.065);
 	}

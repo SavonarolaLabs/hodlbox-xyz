@@ -90,4 +90,11 @@ export const ALL_TREASURES = [
     },
 ]
 
-export const selected_treasure:Writable<Treasure>= writable(ALL_TREASURES[0]);
+const CURRENCIES = [
+    'ERG',
+    'hodlERG3'
+]
+
+export const selected_treasure:Writable<Treasure> = writable(ALL_TREASURES[0]);
+
+export const selected_currency:Writable<string>   =  writable(CURRENCIES[0]);
