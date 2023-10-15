@@ -13,6 +13,11 @@
 </script>
 
 <!-- {#each ALL_TREASURES as chest} -->
+<div class="flex flex-col items-center">
+	<div class="italic text-slate-600">unlock: 2024-10-15</div>
+	<div class="text-7xl font-bold">{$selected_treasure.name.split(' ')[0]}</div>
+	<div class="text-slate-300">$20.00/ERG</div>
+</div>
 <div class="flex items-center gap-4">
 	<button disabled={$selected_treasure.id == 0} on:click={clickPreviousChest} style="width:100px;height:100px;">
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
