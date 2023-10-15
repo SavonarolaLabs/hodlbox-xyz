@@ -2,11 +2,12 @@ import { first } from "@fleet-sdk/common";
 import { ErgoAddress, OutputBuilder, RECOMMENDED_MIN_FEE_VALUE, SAFE_MIN_BOX_VALUE, TransactionBuilder } from "@fleet-sdk/core";
 import { SGroupElement, SInt, SLong, SSigmaProp } from "@fleet-sdk/serializer";
 import { eip0004Regs, type eip004Regs } from "./eip004utils.js"
-import { DEV_CONTRACT_PK, DEV_UI_PK } from "./settings.js";
+import { DEV_UI_PK } from "./settings.js";
 import type { Treasure } from "$lib/store/store.js";
 import { getOracleBox } from "./getOracleBox.js";
+import { CONTRACT_HODLERG3 } from "./compile.js";
 
-export async function mintHodlErg3BoxTx(holderBase58PK: string, utxos: Array<any>, height: number, assets: any, treasure:Treasure, devFeeBase58PK: string = DEV_CONTRACT_PK,  uiFeeBase58PK: string = DEV_UI_PK): any {
+export async function mintHodlErg3BoxTx(holderBase58PK: string, utxos: Array<any>, height: number, assets: any, treasure:Treasure,  uiFeeBase58PK: string = DEV_UI_PK): any {
 
     const myAddr = ErgoAddress.fromBase58(holderBase58PK)
     const uiAddr = ErgoAddress.fromBase58(uiFeeBase58PK)
@@ -30,7 +31,7 @@ export async function mintHodlErg3BoxTx(holderBase58PK: string, utxos: Array<any
 
     const contractBox = new OutputBuilder(
         SAFE_MIN_BOX_VALUE,
-        devFeeBase58PK
+        CONTRACT_HODLERG3
     )
         .addTokens(assets)
         .setAdditionalRegisters({
