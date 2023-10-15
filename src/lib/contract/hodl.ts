@@ -1,8 +1,8 @@
-const a = `
+export const hodl = `
 {
     // Constants
     // _contractDevPK
-    //val oraclePoolNFT = "0fb1eca4646950743bc5a8c341c16871a0ad9b4077e3b276bf93855d51a042d1"
+    //val _oraclePoolNFT = "0fb1eca4646950743bc5a8c341c16871a0ad9b4077e3b276bf93855d51a042d1"
     
     // Context vars set by the UI developer building the HODLBOX mint transaction
     val hodlTargetRate : Long     = SELF.R4[Long].get
@@ -92,7 +92,4 @@ const a = `
         sigmaProp(false)
     }
 }
-
 `
-
-export const hodl = a;

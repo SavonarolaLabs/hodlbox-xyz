@@ -1,7 +1,7 @@
-const a = `
+export const hodlErg3 = `
 {
     // Constants
-    // _contractDevPK
+    // _contractDevPK   - public key of the contract developer
     //val oraclePoolNFT = "0fb1eca4646950743bc5a8c341c16871a0ad9b4077e3b276bf93855d51a042d1"
     
     // Context vars set by the UI developer building the HODLBOX mint transaction
@@ -94,7 +94,4 @@ const a = `
         sigmaProp(false)
     }
 }
-
 `
-
-export const hodlErg3 = a;
