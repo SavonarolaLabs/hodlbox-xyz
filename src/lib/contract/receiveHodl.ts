@@ -1,4 +1,4 @@
-import { ErgoAddress, OutputBuilder, RECOMMENDED_MIN_FEE_VALUE, SAFE_MIN_BOX_VALUE, TransactionBuilder } from "@fleet-sdk/core";
+import { ErgoAddress, OutputBuilder, RECOMMENDED_MIN_FEE_VALUE, SAFE_MIN_BOX_VALUE, SByte, SColl, TransactionBuilder } from "@fleet-sdk/core";
 import { getOracleBox } from "./getOracleBox.js";
 import { DEV_CONTRACT_PK, DEV_UI_PK } from "./settings.js";
 
@@ -17,6 +17,9 @@ export async function receiveHodlBoxTx(hodlBox: object, holderBase58PK: string, 
         userAmount,
         myAddr
     ).addTokens(hodlBox.assets)
+    .setAdditionalRegisters({
+        R4: SColl(SByte, buyBox.boxId).toHex(),
+    });
 
     const devFeeBox = new OutputBuilder(
         SAFE_MIN_BOX_VALUE > devFeeAmount ? SAFE_MIN_BOX_VALUE : devFeeAmount,
