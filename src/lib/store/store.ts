@@ -1,4 +1,5 @@
 import { fetchContractBoxes } from "$lib/api-explorer/explorer.js";
+import { CONTRACT_HODLERG3 } from "$lib/contract/compile.js";
 import { CONTRACT } from "$lib/contract/sellForErg.js";
 import { writable, type Writable } from "svelte/store";
 
@@ -40,7 +41,7 @@ export function loadStoreFromLocalStorage(){
 }
 
 export async function loadOffers(){
-    const boxes = await fetchContractBoxes(CONTRACT);
+    const boxes = await fetchContractBoxes(CONTRACT_HODLERG3);
     offers.set(boxes);
     removeConfirmedBoxes(boxes);
 }

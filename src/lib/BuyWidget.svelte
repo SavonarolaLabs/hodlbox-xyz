@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { ErgoAddress, SSigmaProp } from "@fleet-sdk/core";
+	import { ErgoAddress, SSigmaProp, TokensCollection } from "@fleet-sdk/core";
 	import { buyTx } from "./contract/buyTx.js";
 	import { selected_wallet_ergo } from "./store/store.js";
 	import { notifier } from "@beyonk/svelte-notifications";
+	import { HODLERG3_TOKEN_ID } from "./contract/settings.js";
 
     export let offer;
 
@@ -36,16 +37,11 @@
 
 <div class="p-4 box w-full flex flex-wrap backdrop-blur-md bg-opacity-10 shadow-sm">
     <div class="grow flex flex-col justify-center">
-        {#each offer.assets as token}
+        {#if offer.assets.length>0&&offer.assets[0].tokenId==HODLERG3_TOKEN_ID}
             <div class="flex gap-2">
-                <div class="font-mono">{token.tokenId.substr(0, 3)}...{token.tokenId.substr(
-                    token.tokenId.length - 3,
-                    token.tokenId.length - 1
-                )}</div>
-                <div>{token.amount}
-                </div>
+                HodlERG3 : {offer.assets[0].amount/10**9}
             </div>
-        {/each}
+        {/if}
     </div>
     <div class="flex flex-col justify-end" style="min-width:180px">
         <div class="p-4 pt-1 text-center">
