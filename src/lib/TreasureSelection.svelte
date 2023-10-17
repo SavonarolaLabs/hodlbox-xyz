@@ -15,7 +15,7 @@
 <!-- {#each $all_treasures as chest} -->
 <div class="flex flex-col items-center">
 	<div class="italic text-slate-400">unlock: 2024-10-15</div>
-	<div class="text-7xl font-bold">{$selected_treasure.name.split(' ')[0]}</div>
+	<div class="text-7xl font-bold text-white">{$selected_treasure.name.split(' ')[0]}</div>
 	<div class="text-slate-300">$20.00/ERG</div>
 </div>
 <div class="flex items-center gap-4">
