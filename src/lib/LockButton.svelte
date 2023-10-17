@@ -164,14 +164,16 @@
 		<button
 			class:inactive={$selected_currency != 'hodlERG3'}
 			class:active={$selected_currency == 'hodlERG3'}
-			class="pl-4 pr-2 py-1 option-left"
+			class="pl-4 pr-2 py-1 option-left text-sm"
+			style="min-width:100px"
 			on:click={() => selected_currency.set('hodlERG3')}>hodlERG3</button
 		>
 		<div style="height:100%; width:1px; background:gray;" />
 		<button
 			class:inactive={$selected_currency != 'ERG'}
 			class:active={$selected_currency == 'ERG'}
-			class="pr-4 pl-2 py-1 option-right"
+			class="pr-4 pl-2 py-1 option-right text-sm"
+			style="min-width:100px"
 			on:click={() => selected_currency.set('ERG')}>ERG</button
 		>
 	</div>
