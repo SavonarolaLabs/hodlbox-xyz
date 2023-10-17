@@ -46,16 +46,37 @@ export function loadStoreFromLocalStorage() {
 async function loadERGOffers() {
     const boxes = await fetchContractBoxes(CONTRACT_HODL);
     boxes.forEach(b => {
-        if (b.assets?.length > 0 && b.assets[0].tokenId == HODLERG3_TOKEN_ID) {
-            b.treasure = HODLBOX_TREASURES.find(t => b.assets[0].amount == t.price * 10 ** 9)
-            b.currency = 'hodlERG3';
-        } else {
-            if (b.value > 1 * 10 ** 9) {
-                b.treasure = HODLBOX_TREASURES.find(t => b.value == t.price * 10 ** 9)
-                b.currency = 'ERG';
-            }
+        let project = null;
+        if(b.additionalRegisters.R7.serializedValue == SSigmaProp(SGroupElement(first(ErgoAddress.fromBase58(HODLBOX_DEV_UI_PK).getPublicKeys()))).toHex()){
+            project = 'hodlbox'
         }
-        b.hodler = ErgoAddress.fromPublicKey(b.additionalRegisters.R6.serializedValue.substring(4)).toString()
+        if(b.additionalRegisters.R7.serializedValue == SSigmaProp(SGroupElement(first(ErgoAddress.fromBase58(BITMASKS_DEV_UI_PK).getPublicKeys()))).toHex()){
+            project = 'bitmasks'
+        }
+        if(project == 'hodlbox'){
+            if (b.assets?.length > 0 && b.assets[0].tokenId == HODLERG3_TOKEN_ID) {
+                b.treasure = HODLBOX_TREASURES.find(t => b.assets[0].amount == t.price * 10 ** 9)
+                b.currency = 'hodlERG3';
+            } else {
+                if (b.value > 1 * 10 ** 9) {
+                    b.treasure = HODLBOX_TREASURES.find(t => b.value == t.price * 10 ** 9)
+                    b.currency = 'ERG';
+                }
+            }
+            b.hodler = ErgoAddress.fromPublicKey(b.additionalRegisters.R6.serializedValue.substring(4)).toString()
+        }
+        if(project == 'bitmasks'){
+            if (b.assets?.length > 0 && b.assets[0].tokenId == HODLERG3_TOKEN_ID) {
+                b.treasure = BITMASKS_TREASURES.find(t => b.assets[0].amount == t.price * 10 ** 9)
+                b.currency = 'hodlERG3';
+            } else {
+                if (b.value > 1 * 10 ** 9) {
+                    b.treasure = BITMASKS_TREASURES.find(t => b.value == t.price * 10 ** 9)
+                    b.currency = 'ERG';
+                }
+            }
+            b.hodler = ErgoAddress.fromPublicKey(b.additionalRegisters.R6.serializedValue.substring(4)).toString()
+        }
     })
 
     offers.update(arr => {
@@ -88,11 +109,11 @@ async function loadHodlERG3Offers() {
         }
         if(project == 'bitmasks'){
             if (b.assets?.length > 0 && b.assets[0].tokenId == HODLERG3_TOKEN_ID) {
-                b.treasure = HODLBOX_TREASURES.find(t => b.assets[0].amount == t.price * 10 ** 9)
+                b.treasure = BITMASKS_TREASURES.find(t => b.assets[0].amount == t.price * 10 ** 9)
                 b.currency = 'hodlERG3';
             } else {
                 if (b.value > 1 * 10 ** 9) {
-                    b.treasure = HODLBOX_TREASURES.find(t => b.value == t.price * 10 ** 9)
+                    b.treasure = BITMASKS_TREASURES.find(t => b.value == t.price * 10 ** 9)
                     b.currency = 'ERG';
                 }
             }
