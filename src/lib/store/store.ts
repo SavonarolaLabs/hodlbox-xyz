@@ -1,6 +1,6 @@
 import { fetchContractBoxes } from "$lib/api-explorer/explorer.js";
 import { CONTRACT_HODL, CONTRACT_HODLERG3 } from "$lib/contract/compile.js";
-import { BITMASKS_DEV_UI_PK, HODLBOX_DEV_UI_PK, HODLERG3_TOKEN_ID } from "$lib/contract/settings.js";
+import { BITMASKS_DEV_UI_PK, HODLBOX_DEV_UI_PK, HODLBOX_TARGET_PRICE, HODLERG3_TOKEN_ID } from "$lib/contract/settings.js";
 import { ErgoAddress, SGroupElement, SSigmaProp } from "@fleet-sdk/core";
 import { writable, type Writable } from "svelte/store";
 import { first } from "@fleet-sdk/common"
@@ -123,28 +123,28 @@ export const BITMASKS_TREASURES = [
         img: 'chest/bitmasks/10erg.png',
         cid: 'bafybeigqt6lkj54j7yefwhnlvf3zxu4u6stb2ekqeqw4edsn5tp7ojrjje',
         sha256: 'd6681a167927bbe307c4720b7714f2af0faa235fef2cb8d749b3ce6b20de83cc',
-        name: '$200.00 Bitbox'
+        name: '$600.00 Bitbox'
     }, {
         id: 1,
         price: 100,
         img: 'chest/bitmasks/100erg.png',
         cid: 'bafybeidpmf2y446z2eoc2hwpb7fdvihvlyszrasqsd5vm6f2i5vtydpbem',
         sha256: '988799f887981277f1ad6bd6069fdd942d8399099124fb04535f7fe586bb5791',
-        name: '$2,000.00 Bitbox'
+        name: '$6,000.00 Bitbox'
     }, {
         id: 2,
         price: 1000,
         img: 'chest/bitmasks/1000erg.png',
         cid: 'bafybeihtnoq4lzvklzoacz2sgoporvl5tf42prpnpkf2ue22krpezesxkq',
         sha256: 'a6bd98171412dc07e52a46d32b2064f7c65ed3a0dce4b824b7cfafced7790ef6',
-        name: '$20,000.00 Bitbox'
+        name: '$60,000.00 Bitbox'
     }, {
         id: 3,
         price: 10000,
         img: 'chest/bitmasks/10000erg.png',
         cid: 'bafybeiemvri47zknjmtzjfxd3cxlu6pxyhsnxrwsx6wq72w72gmq52qkgm',
         sha256: '77443821d856013b7d6bb60c638131ff7324b82f2864e659434c7c0a7967ef13',
-        name: '$200,000.00 Bitbox'
+        name: '$600,000.00 Bitbox'
     }
 ]
 
@@ -188,8 +188,8 @@ export const HODLBOX_TREASURES = [
 ]
 
 export const all_treasures = writable(HODLBOX_TREASURES)
-
 export const dev_ui_pk = writable(HODLBOX_DEV_UI_PK)
+export const target_price = writable(HODLBOX_TARGET_PRICE)
 
 const CURRENCIES = [
     'ERG',
@@ -197,5 +197,4 @@ const CURRENCIES = [
 ]
 
 export const selected_treasure: Writable<Treasure> = writable(HODLBOX_TREASURES[0]);
-
 export const selected_currency: Writable<string> = writable(CURRENCIES[0]);

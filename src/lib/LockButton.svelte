@@ -6,7 +6,10 @@
 		assets,
 		selected_treasure,
 		selected_currency,
-		dev_ui_pk
+		dev_ui_pk,
+
+		target_price
+
 	} from '$lib/store/store.ts';
 	import { notifier } from '@beyonk/svelte-notifications';
 	import { sellTx } from './contract/sellTx.js';
@@ -102,7 +105,8 @@
 				$utxos,
 				height,
 				$selected_treasure,
-				$dev_ui_pk
+				$dev_ui_pk,
+				$target_price
 			);
 
 		} else {
@@ -118,7 +122,8 @@
 				height,
 				myAss,
 				$selected_treasure,
-				$dev_ui_pk
+				$dev_ui_pk,
+				$target_price
 			);
 
 		}

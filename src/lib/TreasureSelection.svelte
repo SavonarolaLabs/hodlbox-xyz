@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { all_treasures, selected_treasure } from '$lib/store/store.js';
+	import { all_treasures, selected_treasure, target_price } from '$lib/store/store.js';
 	function clickPreviousChest(){
 		if($selected_treasure.id > 0){
 			selected_treasure.set($all_treasures[$selected_treasure.id-1])
@@ -14,9 +14,9 @@
 
 <!-- {#each $all_treasures as chest} -->
 <div class="flex flex-col items-center">
-	<div class="italic text-slate-400">unlock: 2024-10-15</div>
+	<div class="italic text-slate-300">unlock: 2024-10-15</div>
 	<div class="text-7xl font-bold text-white">{$selected_treasure.name.split(' ')[0]}</div>
-	<div class="text-slate-300">$20.00/ERG</div>
+	<div class="text-slate-200">${(Number($target_price/10n**9n)).toFixed(2)}/ERG</div>
 </div>
 <div class="flex items-center gap-4">
 	<button disabled={$selected_treasure.id == 0} on:click={clickPreviousChest} style="width:100px;height:100px;">

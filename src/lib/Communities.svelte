@@ -1,13 +1,15 @@
 <script lang="ts">
-    import {dev_ui_pk, all_treasures, selected_treasure, HODLBOX_TREASURES, BITMASKS_TREASURES} from "$lib/store/store.js"
-	import { BITMASKS_DEV_UI_PK, HODLBOX_DEV_UI_PK } from "./contract/settings.js";
-    function selectCommunity(community){
+    import {dev_ui_pk, all_treasures, selected_treasure, HODLBOX_TREASURES, BITMASKS_TREASURES, target_price} from "$lib/store/store.js"
+	import { BITMASKS_DEV_UI_PK, BITMASKS_TARGET_PRICE, HODLBOX_DEV_UI_PK, HODLBOX_TARGET_PRICE } from "./contract/settings.js";
+    function selectCommunity(community:string){
         if(community == 'hodlbox'){
+            target_price.set(HODLBOX_TARGET_PRICE)
             dev_ui_pk.set(HODLBOX_DEV_UI_PK)
             all_treasures.set(HODLBOX_TREASURES)
             selected_treasure.set($all_treasures[0]);
         }
         if(community == 'bitmasks'){
+            target_price.set(BITMASKS_TARGET_PRICE)
             dev_ui_pk.set(BITMASKS_DEV_UI_PK)
             all_treasures.set(BITMASKS_TREASURES)
             selected_treasure.set($all_treasures[0]);

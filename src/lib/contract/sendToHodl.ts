@@ -6,14 +6,12 @@ import type { Treasure } from "$lib/store/store.js";
 import { getOracleBox } from "./getOracleBox.js";
 import { CONTRACT_HODL } from "./compile.js";
 
-export async function mintHodlBoxTx(holderBase58PK: string, utxos: Array<any>, height: number, treasure:Treasure, uiFeeBase58PK: string): any {
+export async function mintHodlBoxTx(holderBase58PK: string, utxos: Array<any>, height: number, treasure:Treasure, uiFeeBase58PK: string, targetPrice: bigint): any {
     const myAddr = ErgoAddress.fromBase58(holderBase58PK)
     const uiAddr = ErgoAddress.fromBase58(uiFeeBase58PK)
 
     const targetHeight = 1_372_200 // 2024-10-15  
-    const targetPrice = 20_000_000_000n
     const targetRate = 10n ** 18n / targetPrice
-
 
     const mintDate = new Date().toISOString().split("T")[0]
     const ergoAmount = BigInt(treasure.price*10**9)
