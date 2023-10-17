@@ -142,9 +142,6 @@
 		localStorage.setItem('ergo_bay_unconfirmed_mints', JSON.stringify($unconfirmed_mints));
 
 		cleanUpSaleWidget();
-
-		//add tx + a
-		//console.log(signed);
 	}
 
 	$: loadWalletBoxes($selected_wallet_ergo);

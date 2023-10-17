@@ -1,11 +1,13 @@
 <script lang="ts">
 	import LockButton from "$lib/LockButton.svelte";
-	import TreasureSelection from "./TreasureSelection.svelte";
+	import Communities from "$lib/Communities.svelte";
+	import TreasureSelection from "$lib/TreasureSelection.svelte";
 
     
 </script>
 
 <div class="bg-main grow flex flex-col  justify-center items-center gap-5" style="padding-top:80px;">
+    <Communities></Communities>
     <TreasureSelection></TreasureSelection>
     <LockButton></LockButton>
 </div>

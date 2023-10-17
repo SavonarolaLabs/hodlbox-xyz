@@ -46,11 +46,11 @@ async function loadERGOffers() {
     const boxes = await fetchContractBoxes(CONTRACT_HODL);
     boxes.forEach(b => {
         if (b.assets?.length > 0 && b.assets[0].tokenId == HODLERG3_TOKEN_ID) {
-            b.treasure = ALL_TREASURES.find(t => b.assets[0].amount == t.price * 10 ** 9)
+            b.treasure = HODLBOX_TREASURES.find(t => b.assets[0].amount == t.price * 10 ** 9)
             b.currency = 'hodlERG3';
         } else {
             if (b.value > 1 * 10 ** 9) {
-                b.treasure = ALL_TREASURES.find(t => b.value == t.price * 10 ** 9)
+                b.treasure = HODLBOX_TREASURES.find(t => b.value == t.price * 10 ** 9)
                 b.currency = 'ERG';
             }
         }
@@ -67,11 +67,11 @@ async function loadHodlERG3Offers() {
     const boxes = await fetchContractBoxes(CONTRACT_HODLERG3);
     boxes.forEach(b => {
         if (b.assets?.length > 0 && b.assets[0].tokenId == HODLERG3_TOKEN_ID) {
-            b.treasure = ALL_TREASURES.find(t => b.assets[0].amount == t.price * 10 ** 9)
+            b.treasure = HODLBOX_TREASURES.find(t => b.assets[0].amount == t.price * 10 ** 9)
             b.currency = 'hodlERG3';
         } else {
             if (b.value > 1 * 10 ** 9) {
-                b.treasure = ALL_TREASURES.find(t => b.value == t.price * 10 ** 9)
+                b.treasure = HODLBOX_TREASURES.find(t => b.value == t.price * 10 ** 9)
                 b.currency = 'ERG';
             }
         }
@@ -93,7 +93,39 @@ function removeConfirmedBoxes(confirmedBoxes) {
     })
 }
 
-export const ALL_TREASURES = [
+export const BITMASKS_TREASURES = [
+    {
+        id: 0,
+        price: 10,
+        img: 'chest/bitmasks/10erg.png',
+        cid: 'bafybeigqt6lkj54j7yefwhnlvf3zxu4u6stb2ekqeqw4edsn5tp7ojrjje',
+        sha256: 'd6681a167927bbe307c4720b7714f2af0faa235fef2cb8d749b3ce6b20de83cc',
+        name: '$200.00 Hodlbox'
+    }, {
+        id: 1,
+        price: 100,
+        img: 'chest/bitmasks/100erg.png',
+        cid: 'bafybeidpmf2y446z2eoc2hwpb7fdvihvlyszrasqsd5vm6f2i5vtydpbem',
+        sha256: '988799f887981277f1ad6bd6069fdd942d8399099124fb04535f7fe586bb5791',
+        name: '$2,000.00 Hodlbox'
+    }, {
+        id: 2,
+        price: 1000,
+        img: 'chest/bitmasks/1000erg.png',
+        cid: 'bafybeihtnoq4lzvklzoacz2sgoporvl5tf42prpnpkf2ue22krpezesxkq',
+        sha256: 'a6bd98171412dc07e52a46d32b2064f7c65ed3a0dce4b824b7cfafced7790ef6',
+        name: '$20,000.00 Hodlbox'
+    }, {
+        id: 3,
+        price: 10000,
+        img: 'chest/bitmasks/10000erg.png',
+        cid: 'bafybeiemvri47zknjmtzjfxd3cxlu6pxyhsnxrwsx6wq72w72gmq52qkgm',
+        sha256: '77443821d856013b7d6bb60c638131ff7324b82f2864e659434c7c0a7967ef13',
+        name: '$200,000.00 Hodlbox'
+    }
+]
+
+export const HODLBOX_TREASURES = [
     {
         id: 0,
         price: 10,
@@ -132,11 +164,13 @@ export const ALL_TREASURES = [
     },
 ]
 
+export const all_treasures = writable(HODLBOX_TREASURES)
+
 const CURRENCIES = [
     'ERG',
     'hodlERG3'
 ]
 
-export const selected_treasure: Writable<Treasure> = writable(ALL_TREASURES[0]);
+export const selected_treasure: Writable<Treasure> = writable(HODLBOX_TREASURES[0]);
 
 export const selected_currency: Writable<string> = writable(CURRENCIES[0]);
