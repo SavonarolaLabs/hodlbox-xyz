@@ -1,11 +1,14 @@
 <script lang="ts">
-    import {all_treasures, selected_treasure, HODLBOX_TREASURES, BITMASKS_TREASURES} from "$lib/store/store"
+    import {dev_ui_pk, all_treasures, selected_treasure, HODLBOX_TREASURES, BITMASKS_TREASURES} from "$lib/store/store.js"
+	import { BITMASKS_DEV_UI_PK, HODLBOX_DEV_UI_PK } from "./contract/settings.js";
     function selectCommunity(community){
         if(community == 'hodlbox'){
+            dev_ui_pk.set(HODLBOX_DEV_UI_PK)
             all_treasures.set(HODLBOX_TREASURES)
             selected_treasure.set($all_treasures[0]);
         }
         if(community == 'bitmasks'){
+            dev_ui_pk.set(BITMASKS_DEV_UI_PK)
             all_treasures.set(BITMASKS_TREASURES)
             selected_treasure.set($all_treasures[0]);
         }

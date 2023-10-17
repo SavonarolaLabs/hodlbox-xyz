@@ -2,12 +2,11 @@ import { first } from "@fleet-sdk/common";
 import { ErgoAddress, OutputBuilder, RECOMMENDED_MIN_FEE_VALUE, SAFE_MIN_BOX_VALUE, TransactionBuilder } from "@fleet-sdk/core";
 import { SGroupElement, SInt, SLong, SSigmaProp } from "@fleet-sdk/serializer";
 import { eip0004Regs, type eip004Regs } from "./eip004utils.js"
-import { DEV_UI_PK } from "./settings.js";
 import type { Treasure } from "$lib/store/store.js";
 import { getOracleBox } from "./getOracleBox.js";
 import { CONTRACT_HODL } from "./compile.js";
 
-export async function mintHodlBoxTx(holderBase58PK: string, utxos: Array<any>, height: number, treasure:Treasure, uiFeeBase58PK: string = DEV_UI_PK): any {
+export async function mintHodlBoxTx(holderBase58PK: string, utxos: Array<any>, height: number, treasure:Treasure, uiFeeBase58PK: string): any {
     const myAddr = ErgoAddress.fromBase58(holderBase58PK)
     const uiAddr = ErgoAddress.fromBase58(uiFeeBase58PK)
 

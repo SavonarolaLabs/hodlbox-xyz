@@ -5,7 +5,8 @@
 		utxos,
 		assets,
 		selected_treasure,
-		selected_currency
+		selected_currency,
+		dev_ui_pk
 	} from '$lib/store/store.ts';
 	import { notifier } from '@beyonk/svelte-notifications';
 	import { sellTx } from './contract/sellTx.js';
@@ -100,7 +101,8 @@
 				myAddress,
 				$utxos,
 				height,
-				$selected_treasure
+				$selected_treasure,
+				$dev_ui_pk
 			);
 
 		} else {
@@ -115,7 +117,8 @@
 				$utxos,
 				height,
 				myAss,
-				$selected_treasure
+				$selected_treasure,
+				$dev_ui_pk
 			);
 
 		}
