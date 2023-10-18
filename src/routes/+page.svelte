@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HowItWorks from "$lib/HowItWorks.svelte";
 	import Landing from "$lib/Landing.svelte"
 	import LockedBoxes from "$lib/LockedBoxes.svelte"
 	import { loadOffers, loadStoreFromLocalStorage } from "$lib/store/store.js";
@@ -22,6 +23,7 @@
 	</div>
 	{:else}
 		<Landing></Landing>
+		<HowItWorks></HowItWorks>
 		<LockedBoxes></LockedBoxes>
 	{/if}
 </div>

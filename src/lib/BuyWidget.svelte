@@ -46,7 +46,7 @@
 	}
 </script>
 
-<div class="p-4 w-full flex flex-col justify-center items-center">
+<div class="p-4 flex flex-col justify-center items-center">
 	<img src={offer.treasure.img} alt="" style="width:200px;height:auto;" />
 	<div class="flex gap-2">
 		{offer.treasure.name}

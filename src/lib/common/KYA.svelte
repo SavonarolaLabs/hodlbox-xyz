@@ -7,7 +7,7 @@
 		<ul>
 			<li>- We don't log, collect, profile, share or sell your data;</li>
 			<li>
-				- SigmaFi operates on a live blockchain, thus transactions are final, and irreversible once
+				- HodlBox operates on a live blockchain, thus transactions are final, and irreversible once
 				they have status «confirmed»;
 			</li>
 			<li>
@@ -24,7 +24,7 @@
 		SavonarolaLabs doesn't guarantee the absence of bugs and errors.<br />
 		NO assistance can offered if a user is hacked or cheated out of passwords, currency or private keys.<br
 		/>
-		This is a ALPHA version, we recommend that you DO NOT use it to make large transactions!<br
+		This is a BETA version, we recommend that you DO NOT use it to make large transactions!<br
 		/><br />
 
 		<span class="font-bold text-slate-400">By accepting these KYA, you agree that:</span><br />
