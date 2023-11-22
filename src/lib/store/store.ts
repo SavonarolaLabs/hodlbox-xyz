@@ -1,6 +1,6 @@
 import { fetchContractBoxes } from "$lib/api-explorer/explorer.js";
 import { CONTRACT_HODL, CONTRACT_HODLERG3 } from "$lib/contract/compile.js";
-import { BITMASKS_DEV_UI_PK, HODLBOX_DEV_UI_PK, HODLBOX_TARGET_PRICE, HODLERG3_TOKEN_ID } from "$lib/contract/settings.js";
+import { BITMASKS_DEV_UI_PK, HODLBOX_DEV_UI_PK, HODLBOX_TARGET_PRICE, HODLERG3_TOKEN_ID, WALRUS_DEV_UI_PK } from "$lib/contract/settings.js";
 import { ErgoAddress, SGroupElement, SSigmaProp } from "@fleet-sdk/core";
 import { writable, type Writable } from "svelte/store";
 import { first } from "@fleet-sdk/common"
@@ -53,6 +53,9 @@ async function loadERGOffers() {
         if(b.additionalRegisters.R7.serializedValue == SSigmaProp(SGroupElement(first(ErgoAddress.fromBase58(BITMASKS_DEV_UI_PK).getPublicKeys()))).toHex()){
             project = 'bitmasks'
         }
+        if(b.additionalRegisters.R7.serializedValue == SSigmaProp(SGroupElement(first(ErgoAddress.fromBase58(WALRUS_DEV_UI_PK).getPublicKeys()))).toHex()){
+            project = 'walrus'
+        }
         if(project == 'hodlbox'){
             if (b.assets?.length > 0 && b.assets[0].tokenId == HODLERG3_TOKEN_ID) {
                 b.treasure = HODLBOX_TREASURES.find(t => b.assets[0].amount == t.price * 10 ** 9)
@@ -72,6 +75,18 @@ async function loadERGOffers() {
             } else {
                 if (b.value > 1 * 10 ** 9) {
                     b.treasure = BITMASKS_TREASURES.find(t => b.value == t.price * 10 ** 9)
+                    b.currency = 'ERG';
+                }
+            }
+            b.hodler = ErgoAddress.fromPublicKey(b.additionalRegisters.R6.serializedValue.substring(4)).toString()
+        }
+        if(project == 'walrus'){
+            if (b.assets?.length > 0 && b.assets[0].tokenId == HODLERG3_TOKEN_ID) {
+                b.treasure = WALRUS_TREASURES.find(t => b.assets[0].amount == t.price * 10 ** 9)
+                b.currency = 'hodlERG3';
+            } else {
+                if (b.value > 1 * 10 ** 9) {
+                    b.treasure = WALRUS_TREASURES.find(t => b.value == t.price * 10 ** 9)
                     b.currency = 'ERG';
                 }
             }
@@ -95,6 +110,9 @@ async function loadHodlERG3Offers() {
         if(b.additionalRegisters.R7.serializedValue == SSigmaProp(SGroupElement(first(ErgoAddress.fromBase58(BITMASKS_DEV_UI_PK).getPublicKeys()))).toHex()){
             project = 'bitmasks'
         }
+        if(b.additionalRegisters.R7.serializedValue == SSigmaProp(SGroupElement(first(ErgoAddress.fromBase58(WALRUS_DEV_UI_PK).getPublicKeys()))).toHex()){
+            project = 'walrus'
+        }
         if(project == 'hodlbox'){
             if (b.assets?.length > 0 && b.assets[0].tokenId == HODLERG3_TOKEN_ID) {
                 b.treasure = HODLBOX_TREASURES.find(t => b.assets[0].amount == t.price * 10 ** 9)
@@ -119,6 +137,18 @@ async function loadHodlERG3Offers() {
             }
             b.hodler = ErgoAddress.fromPublicKey(b.additionalRegisters.R6.serializedValue.substring(4)).toString()
         }
+        if(project == 'walrus'){
+            if (b.assets?.length > 0 && b.assets[0].tokenId == HODLERG3_TOKEN_ID) {
+                b.treasure = WALRUS_TREASURES.find(t => b.assets[0].amount == t.price * 10 ** 9)
+                b.currency = 'hodlERG3';
+            } else {
+                if (b.value > 1 * 10 ** 9) {
+                    b.treasure = WALRUS_TREASURES.find(t => b.value == t.price * 10 ** 9)
+                    b.currency = 'ERG';
+                }
+            }
+            b.hodler = ErgoAddress.fromPublicKey(b.additionalRegisters.R6.serializedValue.substring(4)).toString()
+        }
         
     })
 
@@ -136,6 +166,38 @@ function removeConfirmedBoxes(confirmedBoxes) {
         return a.filter(x => !confirmedBoxes.some(box => box.transactionId == x.transactionId))
     })
 }
+
+export const WALRUS_TREASURES = [
+    {
+        id: 0,
+        price: 10,
+        img: 'chest/walrus/10erg.png',
+        cid: 'bafybeiafladhfnbmt242kookpyvuvaemaimpuak5qb7unff5e3b57kmkhi',
+        sha256: '61d1c1d07543bd8908bcb35ff0f57b6d03e7e4109d64cb16607f6ec5c88b7550',
+        name: '$300.00 Walrus Chest'
+    }, {
+        id: 1,
+        price: 100,
+        img: 'chest/walrus/100erg.png',
+        cid: 'bafybeifdavbqmkn6hkznr7lwgwyk4i73uysskzc3slpqjvcznluteerxeq',
+        sha256: 'f52ef55eb5962b3e13fccc715ec83d00fcb4c7b653eb31a0d61ad1a583c594c9',
+        name: '$3,000.00 Walrus Chest'
+    }, {
+        id: 2,
+        price: 1000,
+        img: 'chest/walrus/1000erg.png',
+        cid: 'bafybeie7hbpqbzl7trvfc2cupiouzxkhkibzhbbvq47iaw4qr5gmm4dqmq',
+        sha256: 'b59dc966c57f20776e6492547b1fb5f6aaaaaa4116af61f42a4993909d40c8b1',
+        name: '$30,000.00 Walrus Chest'
+    }, {
+        id: 3,
+        price: 10000,
+        img: 'chest/walrus/10000erg.png',
+        cid: 'bafybeibab375c27tp62jxgbbwvfnz5uhgzknyyrda2tpzmz6gxc6sznsgi',
+        sha256: '74a0982116b6a946b5f5430d19f8ae77521fe7c7ce8337214c4df25b3b838088',
+        name: '$300,000.00 Walrus Chest'
+    }
+]
 
 export const BITMASKS_TREASURES = [
     {
