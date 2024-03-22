@@ -1,419 +1,224 @@
-<pre class="scala" style="font-family:monospace; background:white; color: black; width:100%; padding-top:1em; padding-bottom:1em;"><ol><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span
-					style="color: #F78811;">&#123;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">    <span
-					style="color: #0000ff; font-weight: bold;">val</span
-				> hodlTargetRate <span style="color: #000080;">:</span> Long     <span
-					style="color: #000080;">=</span
-				> SELF.<span style="color: #000000;">R4</span><span style="color: #F78811;">&#91;</span
-				>Long<span style="color: #F78811;">&#93;</span>.<span style="color: #000000;">get</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">    <span
-					style="color: #0000ff; font-weight: bold;">val</span
-				> maxHeight <span style="color: #000080;">:</span> Int           <span
-					style="color: #000080;">=</span
-				> SELF.<span style="color: #000000;">R5</span><span style="color: #F78811;">&#91;</span
-				>Int<span style="color: #F78811;">&#93;</span>.<span style="color: #000000;">get</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">    <span
-					style="color: #0000ff; font-weight: bold;">val</span
-				> hodlerPK <span style="color: #000080;">:</span> SigmaProp      <span
-					style="color: #000080;">=</span
-				> SELF.<span style="color: #000000;">R6</span><span style="color: #F78811;">&#91;</span
-				>SigmaProp<span style="color: #F78811;">&#93;</span>.<span style="color: #000000;">get</span
-				></div></li><li style="font-weight: bold; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">    <span
-					style="color: #0000ff; font-weight: bold;">val</span
-				> uiFeePK <span style="color: #000080;">:</span> SigmaProp       <span
-					style="color: #000080;">=</span
-				> SELF.<span style="color: #000000;">R7</span><span style="color: #F78811;">&#91;</span
-				>SigmaProp<span style="color: #F78811;">&#93;</span>.<span style="color: #000000;">get</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">    <span
-					style="color: #0000ff; font-weight: bold;">val</span
-				> totalLockedNanoErg <span style="color: #000080;">:</span> Long <span
-					style="color: #000080;">=</span
-				> SELF.<span style="color: #000000;">value</span></div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">    <span
-					style="color: #0000ff; font-weight: bold;">val</span
-				> fees<span style="color: #000080;">:</span> Coll<span style="color: #F78811;">&#91;</span
-				><span style="color: #F78811;">&#40;</span>SigmaProp, BigInt<span style="color: #F78811;"
-					>&#41;</span
-				><span style="color: #F78811;">&#93;</span> <span style="color: #000080;">=</span> <span
-					style="color: #F78811;">&#123;</span
-				></div></li><li style="font-weight: bold; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">        <span
-					style="color: #0000ff; font-weight: bold;">val</span
-				> feeDenom <span style="color: #000080;">:</span> Long <span style="color: #000080;">=</span
-				> 100000L</div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">        <span
-					style="color: #0000ff; font-weight: bold;">val</span
-				> devFee   <span style="color: #000080;">:</span> Long <span style="color: #000080;">=</span
-				> 500L         <span style="color: #008000; font-style: italic;">// 0.5%</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">        <span
-					style="color: #0000ff; font-weight: bold;">val</span
-				> uiFee    <span style="color: #000080;">:</span> Long <span style="color: #000080;">=</span
-				> 500L         <span style="color: #008000; font-style: italic;">// 0.5%</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">            Coll<span
-					style="color: #F78811;">&#40;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">                 <span
-					style="color: #F78811;">&#40;</span
-				><span style="color: #000080;">_</span>contractDevPK, <span style="color: #F78811;"
-					>&#40;</span
-				>devFee.<span style="color: #000000;">toBigInt</span> <span style="color: #000080;">*</span
-				> totalLockedNanoErg.<span style="color: #000000;">toBigInt</span><span
-					style="color: #F78811;">&#41;</span
-				> / feeDenom.<span style="color: #000000;">toBigInt</span><span style="color: #F78811;"
-					>&#41;</span
-				>,</div></li><li style="font-weight: bold; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">                 <span
-					style="color: #F78811;">&#40;</span
-				>uiFeePK, <span style="color: #F78811;">&#40;</span>uiFee.<span style="color: #000000;"
-					>toBigInt</span
-				> <span style="color: #000080;">*</span> totalLockedNanoErg.<span style="color: #000000;"
-					>toBigInt</span
-				><span style="color: #F78811;">&#41;</span> / feeDenom.<span style="color: #000000;"
-					>toBigInt</span
-				><span style="color: #F78811;">&#41;</span></div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">            <span
-					style="color: #F78811;">&#41;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">    <span
-					style="color: #F78811;">&#125;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">    <span
-					style="color: #0000ff; font-weight: bold;">val</span
-				> feesPaid <span style="color: #000080;">:</span> Boolean <span style="color: #000080;"
-					>=</span
-				> <span style="color: #F78811;">&#123;</span></div></li><li
-			style="font-weight: bold; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">        <span
-					style="color: #0000ff; font-weight: bold;">val</span
-				> devFeesPaid<span style="color: #000080;">:</span> Boolean <span style="color: #000080;"
-					>=</span
-				> <span style="color: #F78811;">&#123;</span></div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">            <span
-					style="color: #0000ff; font-weight: bold;">if</span
-				><span style="color: #F78811;">&#40;</span>fees<span style="color: #F78811;">&#40;</span
-				><span style="color: #F78811;">0</span><span style="color: #F78811;">&#41;</span>.<span
-					style="color: #000080;">_</span
-				>2 <span style="color: #000080;">&gt;</span> <span style="color: #F78811;">0</span><span
-					style="color: #F78811;">&#41;</span
-				><span style="color: #F78811;">&#123;</span></div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">                <span
-					style="color: #0000ff; font-weight: bold;">val</span
-				> devOutput <span style="color: #000080;">:</span> Box   <span style="color: #000080;"
-					>=</span
-				> OUTPUTS<span style="color: #F78811;">&#40;</span><span style="color: #F78811;">1</span
-				><span style="color: #F78811;">&#41;</span></div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">                allOf<span
-					style="color: #F78811;">&#40;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">                    Coll<span
-					style="color: #F78811;">&#40;</span
-				></div></li><li style="font-weight: bold; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">                        devOutput.<span
-					style="color: #000000;">propositionBytes</span
-				>   <span style="color: #000080;">==</span> fees<span style="color: #F78811;">&#40;</span
-				><span style="color: #F78811;">0</span><span style="color: #F78811;">&#41;</span>.<span
-					style="color: #000080;">_</span
-				>1.<span style="color: #000000;">propBytes</span>,</div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">                        devOutput.<span
-					style="color: #000000;">value</span
-				>.<span style="color: #000000;">toBigInt</span>     <span style="color: #000080;"
-					>&gt;=</span
-				> fees<span style="color: #F78811;">&#40;</span><span style="color: #F78811;">0</span><span
-					style="color: #F78811;">&#41;</span
-				>.<span style="color: #000080;">_</span>2</div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">                    <span
-					style="color: #F78811;">&#41;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">                <span
-					style="color: #F78811;">&#41;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">            <span
-					style="color: #F78811;">&#125;</span
-				><span style="color: #0000ff; font-weight: bold;">else</span><span style="color: #F78811;"
-					>&#123;</span
-				></div></li><li style="font-weight: bold; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">                <span
-					style="color: #0000ff; font-weight: bold;">true</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">            <span
-					style="color: #F78811;">&#125;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">        <span
-					style="color: #F78811;">&#125;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">        <span
-					style="color: #0000ff; font-weight: bold;">val</span
-				> uiFeesPaid <span style="color: #000080;">:</span> Boolean <span style="color: #000080;"
-					>=</span
-				> <span style="color: #F78811;">&#123;</span></div></li><li
-			style="font-weight: bold; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">            <span
-					style="color: #0000ff; font-weight: bold;">if</span
-				><span style="color: #F78811;">&#40;</span>fees<span style="color: #F78811;">&#40;</span
-				><span style="color: #F78811;">1</span><span style="color: #F78811;">&#41;</span>.<span
-					style="color: #000080;">_</span
-				>2 <span style="color: #000080;">&gt;</span> <span style="color: #F78811;">0</span><span
-					style="color: #F78811;">&#41;</span
-				><span style="color: #F78811;">&#123;</span></div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">                <span
-					style="color: #0000ff; font-weight: bold;">val</span
-				> uiOutput <span style="color: #000080;">:</span> Box    <span style="color: #000080;"
-					>=</span
-				> OUTPUTS<span style="color: #F78811;">&#40;</span><span style="color: #F78811;">2</span
-				><span style="color: #F78811;">&#41;</span></div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">                allOf<span
-					style="color: #F78811;">&#40;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">                    Coll<span
-					style="color: #F78811;">&#40;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">                        uiOutput.<span
-					style="color: #000000;">propositionBytes</span
-				>   <span style="color: #000080;">==</span> fees<span style="color: #F78811;">&#40;</span
-				><span style="color: #F78811;">1</span><span style="color: #F78811;">&#41;</span>.<span
-					style="color: #000080;">_</span
-				>1.<span style="color: #000000;">propBytes</span>,</div></li><li
-			style="font-weight: bold; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">                        uiOutput.<span
-					style="color: #000000;">value</span
-				>.<span style="color: #000000;">toBigInt</span>     <span style="color: #000080;"
-					>&gt;=</span
-				> fees<span style="color: #F78811;">&#40;</span><span style="color: #F78811;">1</span><span
-					style="color: #F78811;">&#41;</span
-				>.<span style="color: #000080;">_</span>2</div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">                    <span
-					style="color: #F78811;">&#41;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">                <span
-					style="color: #F78811;">&#41;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">            <span
-					style="color: #F78811;">&#125;</span
-				><span style="color: #0000ff; font-weight: bold;">else</span><span style="color: #F78811;"
-					>&#123;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">                <span
-					style="color: #0000ff; font-weight: bold;">true</span
-				></div></li><li style="font-weight: bold; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">            <span
-					style="color: #F78811;">&#125;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">        <span
-					style="color: #F78811;">&#125;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">        devFeesPaid <span
-					style="color: #000080;">&amp;&amp;</span
-				> uiFeesPaid</div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">    <span
-					style="color: #F78811;">&#125;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li
-			style="font-weight: bold; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">    <span
-					style="color: #0000ff; font-weight: bold;">val</span
-				> feesTotal <span style="color: #000080;">:</span> Long <span style="color: #000080;"
-					>=</span
-				> fees<span style="color: #F78811;">&#40;</span><span style="color: #F78811;">0</span><span
-					style="color: #F78811;">&#41;</span
-				>.<span style="color: #000080;">_</span>2 + fees<span style="color: #F78811;">&#40;</span
-				><span style="color: #F78811;">1</span><span style="color: #F78811;">&#41;</span>.<span
-					style="color: #000080;">_</span
-				>2</div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">    <span
-					style="color: #0000ff; font-weight: bold;">val</span
-				> repaymentNanoErg <span style="color: #000080;">:</span> Long <span style="color: #000080;"
-					>=</span
-				> totalLockedNanoErg - feesTotal</div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">    <span
-					style="color: #0000ff; font-weight: bold;">val</span
-				> fundsReturned <span style="color: #000080;">:</span> Boolean <span style="color: #000080;"
-					>=</span
-				> <span style="color: #F78811;">&#123;</span></div></li><li
-			style="font-weight: bold; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">        OUTPUTS<span
-					style="color: #F78811;">&#40;</span
-				><span style="color: #F78811;">0</span><span style="color: #F78811;">&#41;</span>.<span
-					style="color: #000000;">propositionBytes</span
-				> <span style="color: #000080;">==</span> hodlerPK.<span style="color: #000000;"
-					>propBytes</span
-				> <span style="color: #000080;">&amp;&amp;</span> </div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">        OUTPUTS<span
-					style="color: #F78811;">&#40;</span
-				><span style="color: #F78811;">0</span><span style="color: #F78811;">&#41;</span>.<span
-					style="color: #000000;">value</span
-				> <span style="color: #000080;">&gt;=</span> repaymentNanoErg <span style="color: #000080;"
-					>&amp;&amp;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">        OUTPUTS<span
-					style="color: #F78811;">&#40;</span
-				><span style="color: #F78811;">0</span><span style="color: #F78811;">&#41;</span>.<span
-					style="color: #000000;">R4</span
-				><span style="color: #F78811;">&#91;</span>Coll<span style="color: #F78811;">&#91;</span
-				>Byte<span style="color: #F78811;">&#93;</span><span style="color: #F78811;">&#93;</span
-				>.<span style="color: #000000;">get</span> <span style="color: #000080;">==</span
-				> SELF.<span style="color: #000000;">id</span></div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">    <span
-					style="color: #F78811;">&#125;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li
-			style="font-weight: bold; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">    <span
-					style="color: #0000ff; font-weight: bold;">val</span
-				> maxHeightReached <span style="color: #000080;">:</span> Boolean <span
-					style="color: #000080;">=</span
-				> <span style="color: #F78811;">&#123;</span></div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">        maxHeight <span
-					style="color: #000080;">&lt;=</span
-				> HEIGHT</div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">    <span
-					style="color: #F78811;">&#125;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">    <span
-					style="color: #0000ff; font-weight: bold;">val</span
-				> priceTargetReached <span style="color: #000080;">:</span> Boolean <span
-					style="color: #000080;">=</span
-				> <span style="color: #F78811;">&#123;</span></div></li><li
-			style="font-weight: bold; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">        <span
-					style="color: #0000ff; font-weight: bold;">if</span
-				> <span style="color: #F78811;">&#40;</span>CONTEXT.<span style="color: #000000;"
-					>dataInputs</span
-				>.<span style="color: #000000;">size</span> <span style="color: #000080;">&gt;</span> <span
-					style="color: #F78811;">0</span
-				><span style="color: #F78811;">&#41;</span> <span style="color: #F78811;">&#123;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">            <span
-					style="color: #008000; font-style: italic;">// validate Oracle box</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">            <span
-					style="color: #0000ff; font-weight: bold;">val</span
-				> oracleBox <span style="color: #000080;">:</span> Box <span style="color: #000080;">=</span
-				> CONTEXT.<span style="color: #000000;">dataInputs</span><span style="color: #F78811;"
-					>&#40;</span
-				><span style="color: #F78811;">0</span><span style="color: #F78811;">&#41;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">            <span
-					style="color: #0000ff; font-weight: bold;">val</span
-				> currentRate <span style="color: #000080;">:</span> Long <span style="color: #000080;"
-					>=</span
-				> oracleBox.<span style="color: #000000;">R4</span><span style="color: #F78811;">&#91;</span
-				>Long<span style="color: #F78811;">&#93;</span>.<span style="color: #000000;">get</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">            <span
-					style="color: #0000ff; font-weight: bold;">val</span
-				> oracleHeight<span style="color: #000080;">:</span> Long <span style="color: #000080;"
-					>=</span
-				> oracleBox.<span style="color: #000000;">R5</span><span style="color: #F78811;">&#91;</span
-				>Int<span style="color: #F78811;">&#93;</span>.<span style="color: #000000;">get</span
-				></div></li><li style="font-weight: bold; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">            <span
-					style="color: #0000ff; font-weight: bold;">val</span
-				> validDataInput<span style="color: #000080;">:</span> Boolean <span style="color: #000080;"
-					>=</span
-				> HEIGHT <span style="color: #000080;">&lt;=</span> oracleHeight + <span
-					style="color: #F78811;">30</span
-				> <span style="color: #000080;">&amp;&amp;</span> oracleBox.<span style="color: #000000;"
-					>tokens</span
-				><span style="color: #F78811;">&#40;</span><span style="color: #F78811;">0</span><span
-					style="color: #F78811;">&#41;</span
-				>.<span style="color: #000080;">_</span>1 <span style="color: #000080;">==</span> <span
-					style="color: #000080;">_</span
-				>oraclePoolNFT</div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">            <span
-					style="color: #008000; font-style: italic;">// check if the price reached target</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">            <span
-					style="color: #0000ff; font-weight: bold;">val</span
-				> targetPriceReached<span style="color: #000080;">:</span> Boolean <span
-					style="color: #000080;">=</span
-				> currentRate <span style="color: #000080;">&lt;=</span> hodlTargetRate</div></li><li
-			style="font-weight: bold; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">            validDataInput <span
-					style="color: #000080;">&amp;&amp;</span
-				> targetPriceReached</div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">        <span
-					style="color: #F78811;">&#125;</span
-				> <span style="color: #0000ff; font-weight: bold;">else</span> <span style="color: #F78811;"
-					>&#123;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">            <span
-					style="color: #0000ff; font-weight: bold;">false</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">        <span
-					style="color: #F78811;">&#125;</span
-				></div></li><li style="font-weight: bold; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">    <span
-					style="color: #F78811;">&#125;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">    <span
-					style="color: #0000ff; font-weight: bold;">if</span
-				><span style="color: #F78811;">&#40;</span>priceTargetReached || maxHeightReached<span
-					style="color: #F78811;">&#41;</span
-				><span style="color: #F78811;">&#123;</span></div></li><li
-			style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">        sigmaProp<span
-					style="color: #F78811;">&#40;</span
-				>fundsReturned <span style="color: #000080;">&amp;&amp;</span> feesPaid<span
-					style="color: #F78811;">&#41;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">    <span
-					style="color: #F78811;">&#125;</span
-				> <span style="color: #0000ff; font-weight: bold;">else</span> <span style="color: #F78811;"
-					>&#123;</span
-				></div></li><li style="font-weight: bold; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">        sigmaProp<span
-					style="color: #F78811;">&#40;</span
-				><span style="color: #0000ff; font-weight: bold;">false</span><span style="color: #F78811;"
-					>&#41;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">    <span
-					style="color: #F78811;">&#125;</span
-				></div></li><li style="font-weight: normal; vertical-align:top;"><div
-				style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span
-					style="color: #F78811;">&#125;</span
-				></div></li></ol></pre>
+
+<style>
+	.hljs {
+	  color: #ddd;
+	}
+	
+	.hljs-tag,
+	.hljs-keyword,
+	.hljs-selector-tag,
+	.hljs-literal,
+	.hljs-strong,
+	.hljs-name {
+	  color: #f92672;
+	}
+	
+	.hljs-code {
+	  color: #66d9ef;
+	}
+	
+	.hljs-attribute,
+	.hljs-symbol,
+	.hljs-regexp,
+	.hljs-link {
+	  color: #bf79db;
+	}
+	
+	.hljs-string,
+	.hljs-bullet,
+	.hljs-subst,
+	.hljs-title,
+	.hljs-section,
+	.hljs-emphasis,
+	.hljs-type,
+	.hljs-built_in,
+	.hljs-selector-attr,
+	.hljs-selector-pseudo,
+	.hljs-addition,
+	.hljs-variable,
+	.hljs-template-tag,
+	.hljs-template-variable {
+	  color: #a6e22e;
+	}
+	
+	.hljs-title.class_,
+	.hljs-class .hljs-title {
+	  color: white;
+	}
+	
+	.hljs-comment,
+	.hljs-quote,
+	.hljs-deletion,
+	.hljs-meta {
+	  color: #75715e;
+	}
+	
+	.hljs-keyword,
+	.hljs-selector-tag,
+	.hljs-literal,
+	.hljs-doctag,
+	.hljs-title,
+	.hljs-section,
+	.hljs-type,
+	.hljs-selector-id {
+	  font-weight: bold;
+	}
+	
+	.ios-buttons {
+		display: flex;
+		gap: 5px;
+		padding: 0.7em;
+		padding-left: 1em;
+	}
+	
+	.ios-button {
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		background-color: #fff;
+		cursor: pointer;
+	}
+	
+	.ios-button.close {
+		background-color: #ff3b30;
+	}
+	
+	.ios-button.minimize {
+		background-color: #ffcc00;
+	}
+	
+	.ios-button.maximize {
+		background-color: #4cd964;
+	}
+	
+	.fake-window-header {
+		border-top-left-radius: 6px;
+		border-top-right-radius: 6px;
+		position: sticky;
+		top: 0;
+		background-color: #1e1e1e;
+		width:100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		color: gray;
+		font-family: monospace;
+	}
+	
+	.editor-flex {
+		background: #1e1e1e;
+		position: relative;
+		border-bottom-left-radius: 8px;
+		border-bottom-right-radius: 8px;
+		overflow: scroll;
+		resize: both;
+		-webkit-box-shadow: 0px 0px 81px 5px rgba(0, 0, 0, 0.7);
+		-moz-box-shadow: 0px 0px 81px 5px rgba(0, 0, 0, 0.7);
+		box-shadow: 0px 0px 81px 5px rgba(0, 0, 0, 0.7);
+	}
+	.source-code{
+		margin-left:16px;
+	}
+	</style>
+	
+	
+	<div class="editor-flex">
+		<div class="fake-window-header">
+					<div class="ios-buttons">
+						<div class="ios-button close" />
+						<div class="ios-button minimize" />
+						<div class="ios-button maximize" />
+					</div>
+					<div style="padding-right:8px;">ergoscript</div>
+				</div>
+				<div class="source-code">
+					<pre><code class="hljs">&#123;
+		<span class="hljs-keyword">val</span> hodlTargetRate : <span class="hljs-type">Long</span>     = <span class="hljs-type">SELF</span>.<span class="hljs-type">R4</span>[<span class="hljs-type">Long</span>].get
+		<span class="hljs-keyword">val</span> maxHeight : <span class="hljs-type">Int</span>           = <span class="hljs-type">SELF</span>.<span class="hljs-type">R5</span>[<span class="hljs-type">Int</span>].get
+		<span class="hljs-keyword">val</span> hodlerPK : <span class="hljs-type">SigmaProp</span>      = <span class="hljs-type">SELF</span>.<span class="hljs-type">R6</span>[<span class="hljs-type">SigmaProp</span>].get
+		<span class="hljs-keyword">val</span> uiFeePK : <span class="hljs-type">SigmaProp</span>       = <span class="hljs-type">SELF</span>.<span class="hljs-type">R7</span>[<span class="hljs-type">SigmaProp</span>].get
+	 
+		<span class="hljs-keyword">val</span> totalLockedNanoErg : <span class="hljs-type">Long</span> = <span class="hljs-type">SELF</span>.value
+	 
+		<span class="hljs-keyword">val</span> fees: <span class="hljs-type">Coll</span>[(<span class="hljs-type">SigmaProp</span>, <span class="hljs-type">BigInt</span>)] = &#123;
+			<span class="hljs-keyword">val</span> feeDenom : <span class="hljs-type">Long</span> = <span class="hljs-number">100000</span>L
+			<span class="hljs-keyword">val</span> devFee   : <span class="hljs-type">Long</span> = <span class="hljs-number">500</span>L         <span class="hljs-comment">// 0.5%</span>
+			<span class="hljs-keyword">val</span> uiFee    : <span class="hljs-type">Long</span> = <span class="hljs-number">500</span>L         <span class="hljs-comment">// 0.5%</span>
+				<span class="hljs-type">Coll</span>(
+					 (_contractDevPK, (devFee.toBigInt * totalLockedNanoErg.toBigInt) / feeDenom.toBigInt),
+					 (uiFeePK, (uiFee.toBigInt * totalLockedNanoErg.toBigInt) / feeDenom.toBigInt)
+				)
+		&#125;
+	 
+		<span class="hljs-keyword">val</span> feesPaid : <span class="hljs-type">Boolean</span> = &#123;
+			<span class="hljs-keyword">val</span> devFeesPaid: <span class="hljs-type">Boolean</span> = &#123;
+				<span class="hljs-keyword">if</span>(fees(<span class="hljs-number">0</span>)._2 &gt; <span class="hljs-number">0</span>)&#123;
+					<span class="hljs-keyword">val</span> devOutput : <span class="hljs-type">Box</span>   = <span class="hljs-type">OUTPUTS</span>(<span class="hljs-number">1</span>)
+					allOf(
+						<span class="hljs-type">Coll</span>(
+							devOutput.propositionBytes   == fees(<span class="hljs-number">0</span>)._1.propBytes,
+							devOutput.value.toBigInt     &gt;= fees(<span class="hljs-number">0</span>)._2
+						)
+					)
+				&#125;<span class="hljs-keyword">else</span>&#123;
+					<span class="hljs-literal">true</span>
+				&#125;
+			&#125;
+	 
+			<span class="hljs-keyword">val</span> uiFeesPaid : <span class="hljs-type">Boolean</span> = &#123;
+				<span class="hljs-keyword">if</span>(fees(<span class="hljs-number">1</span>)._2 &gt; <span class="hljs-number">0</span>)&#123;
+					<span class="hljs-keyword">val</span> uiOutput : <span class="hljs-type">Box</span>    = <span class="hljs-type">OUTPUTS</span>(<span class="hljs-number">2</span>)
+					allOf(
+						<span class="hljs-type">Coll</span>(
+							uiOutput.propositionBytes   == fees(<span class="hljs-number">1</span>)._1.propBytes,
+							uiOutput.value.toBigInt     &gt;= fees(<span class="hljs-number">1</span>)._2
+						)
+					)
+				&#125;<span class="hljs-keyword">else</span>&#123;
+					<span class="hljs-literal">true</span>
+				&#125;
+			&#125;
+			devFeesPaid &amp;&amp; uiFeesPaid
+		&#125;
+	 
+		<span class="hljs-keyword">val</span> feesTotal : <span class="hljs-type">Long</span> = fees(<span class="hljs-number">0</span>)._2 + fees(<span class="hljs-number">1</span>)._2
+	 
+		<span class="hljs-keyword">val</span> repaymentNanoErg : <span class="hljs-type">Long</span> = totalLockedNanoErg - feesTotal
+	 
+		<span class="hljs-keyword">val</span> fundsReturned : <span class="hljs-type">Boolean</span> = &#123;
+			<span class="hljs-type">OUTPUTS</span>(<span class="hljs-number">0</span>).propositionBytes == hodlerPK.propBytes &amp;&amp; 
+			<span class="hljs-type">OUTPUTS</span>(<span class="hljs-number">0</span>).value &gt;= repaymentNanoErg &amp;&amp;
+			<span class="hljs-type">OUTPUTS</span>(<span class="hljs-number">0</span>).<span class="hljs-type">R4</span>[<span class="hljs-type">Coll</span>[<span class="hljs-type">Byte</span>]].get == <span class="hljs-type">SELF</span>.id
+		&#125;
+	 
+		<span class="hljs-keyword">val</span> maxHeightReached : <span class="hljs-type">Boolean</span> = &#123;
+			maxHeight &lt;= <span class="hljs-type">HEIGHT</span>
+		&#125;
+	 
+		<span class="hljs-keyword">val</span> priceTargetReached : <span class="hljs-type">Boolean</span> = &#123;
+			<span class="hljs-keyword">if</span> (<span class="hljs-type">CONTEXT</span>.dataInputs.size &gt; <span class="hljs-number">0</span>) &#123;
+				<span class="hljs-comment">// validate Oracle box</span>
+				<span class="hljs-keyword">val</span> oracleBox : <span class="hljs-type">Box</span> = <span class="hljs-type">CONTEXT</span>.dataInputs(<span class="hljs-number">0</span>)
+				<span class="hljs-keyword">val</span> currentRate : <span class="hljs-type">Long</span> = oracleBox.<span class="hljs-type">R4</span>[<span class="hljs-type">Long</span>].get
+				<span class="hljs-keyword">val</span> oracleHeight: <span class="hljs-type">Long</span> = oracleBox.<span class="hljs-type">R5</span>[<span class="hljs-type">Int</span>].get
+	 
+				<span class="hljs-keyword">val</span> validDataInput: <span class="hljs-type">Boolean</span> = <span class="hljs-type">HEIGHT</span> &lt;= oracleHeight + <span class="hljs-number">30</span> &amp;&amp; oracleBox.tokens(<span class="hljs-number">0</span>)._1 == _oraclePoolNFT
+	 
+				<span class="hljs-comment">// check if the price reached target</span>
+				<span class="hljs-keyword">val</span> targetPriceReached: <span class="hljs-type">Boolean</span> = currentRate &lt;= hodlTargetRate
+	 
+				validDataInput &amp;&amp; targetPriceReached
+			&#125; <span class="hljs-keyword">else</span> &#123;
+				<span class="hljs-literal">false</span>
+			&#125;
+		&#125;
+	 
+		<span class="hljs-keyword">if</span>(priceTargetReached || maxHeightReached)&#123;
+			sigmaProp(fundsReturned &amp;&amp; feesPaid)
+		&#125; <span class="hljs-keyword">else</span> &#123;
+			sigmaProp(<span class="hljs-literal">false</span>)
+		&#125;
+	&#125;</code></pre>
+				</div>   
+		</div>
+		
