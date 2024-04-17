@@ -1,12 +1,12 @@
 export const hodlMeme = `
 {
     // _contractDevPK - public key of the contract developer
-    // _spectrumOraclePK = "TBA"
     
     // val hodlTargetRate : Long        = SELF.R4[Long].get
     val maxHeight      : Int         = SELF.R5[Int].get
     val hodlerPK       : SigmaProp   = SELF.R6[SigmaProp].get
     val uiFeePK        : SigmaProp   = SELF.R7[SigmaProp].get
+    val oraclePK       : SigmaProp   = SELF.R8[SigmaProp].get
 
     val tokenId        : Coll[SByte]= SELF.tokens(0)._1
     val totalLockedAmount: Long      = SELF.tokens(0)._2
@@ -69,11 +69,10 @@ export const hodlMeme = `
         maxHeight <= HEIGHT
     }
 
-    val priceTargetReached : SigmaProp = sigmaProp(_spectrumOraclePK)
 
-    if(priceTargetReached || maxHeightReached){
+    if(maxHeightReached){
         sigmaProp(fundsReturned && feesPaid) 
     } else {
-        sigmaProp(false)
+        oraclePK && sigmaProp(fundsReturned && feesPaid) 
     }
 }`

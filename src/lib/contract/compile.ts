@@ -35,7 +35,7 @@ function compileMemeContract(contract: string, devBase58PK: string, oracleBase58
     const tree = compile(contract, {
         map: {
             _contractDevPK: SSigmaProp(SGroupElement(first(devAddr.getPublicKeys()))).toHex(),
-            _spectrumOraclePK: SSigmaProp(SGroupElement(first(oraclePK.getPublicKeys()))).toHex()
+            //_customOraclePK: SSigmaProp(SGroupElement(first(oraclePK.getPublicKeys()))).toHex()
         }
     });
     return tree.toAddress(Network.Mainnet).toString()
