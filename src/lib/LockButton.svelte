@@ -1,4 +1,5 @@
 <script lang="ts">
+	import * as JSONbig from "json-bigint";
 	import {
 		unconfirmed_mints,
 		selected_wallet_ergo,
@@ -7,17 +8,23 @@
 		selected_treasure,
 		selected_currency,
 		dev_ui_pk,
-
-		target_price
-
+		target_price,
+		ERDOGE_TREASURES
 	} from '$lib/store/store.ts';
 	import { notifier } from '@beyonk/svelte-notifications';
 	import { sellTx } from './contract/sellTx.js';
 	import { CONTRACT, DEV_PK } from './contract/sellForErg.js';
 	import { mintHodlErg3BoxTx } from './contract/sendToHodl_hodlerg3.js';
-	import { HODLERG3_TOKEN_ID } from './contract/settings.js';
+	import {
+		DEV_ORACLE_PK,
+		ERDOGE_DEV_UI_PK,
+		ERDOGE_TOKEN_ID,
+		HODLERG3_TOKEN_ID
+	} from './contract/settings.js';
 	import { ErgoAddress } from '@fleet-sdk/core';
 	import { mintHodlBoxTx } from './contract/sendToHodl.js';
+	import { CONTRACT_MEME } from './contract/compile.js';
+	import { sendToHodlMemeTx } from './contract/sendToHodlMeme.js';
 
 	let editAssets = false;
 	let additionalAssets: Array<Token> = [];
@@ -92,15 +99,36 @@
 
 		const myAddress = await ergo.get_change_address();
 		const height = await ergo.get_current_height();
-		let unsigned
+		let unsigned;
 
-		if ($selected_currency == 'ERG') {
-			if (ergoBalance< BigInt($selected_treasure.price * 10 ** 9)){
+		if ($dev_ui_pk == ERDOGE_DEV_UI_PK) {
+			const erdogeBalance = boxes
+				.flatMap((b) => b.assets)
+				.reduce((a, ass) => a + (ass.tokenId == ERDOGE_TOKEN_ID ? BigInt(ass.amount) : 0n), 0n);
+			if (erdogeBalance < BigInt($selected_treasure.price)) {
+				notifier.info('Not enough Erdoge.', 1500);
+				return;
+			}
+
+			unsigned = await sendToHodlMemeTx(
+				myAddress,
+				$utxos,
+				height,
+				CONTRACT_MEME,
+				[{ tokenId: ERDOGE_TOKEN_ID, amount: ERDOGE_TREASURES[0].price }],
+				ERDOGE_DEV_UI_PK,
+				ERDOGE_TREASURES[0].targetRateInNanoErg,
+				ERDOGE_TREASURES[0].unlockHeight,
+				ERDOGE_TREASURES[0].unlockDate,
+				DEV_ORACLE_PK
+			);
+		} else if ($selected_currency == 'ERG') {
+			if (ergoBalance < BigInt($selected_treasure.price * 10 ** 9)) {
 				notifier.info('Not enough Erg.', 1500);
 				return;
 			}
-			
-			 unsigned = await mintHodlBoxTx(
+
+			unsigned = await mintHodlBoxTx(
 				myAddress,
 				$utxos,
 				height,
@@ -108,7 +136,6 @@
 				$dev_ui_pk,
 				$target_price
 			);
-
 		} else {
 			if (hodlErg3Balance < BigInt($selected_treasure.price * 10 ** 9)) {
 				notifier.info('Not enough Tokens.', 1500);
@@ -125,7 +152,6 @@
 				$dev_ui_pk,
 				$target_price
 			);
-
 		}
 
 		const signed = await ergo.sign_tx(unsigned);
@@ -147,7 +173,7 @@
 			a.push(unconfirmedSale);
 			return a;
 		});
-		localStorage.setItem('ergo_bay_unconfirmed_mints', JSON.stringify($unconfirmed_mints));
+		localStorage.setItem('ergo_bay_unconfirmed_mints', JSONbig.stringify($unconfirmed_mints));
 
 		cleanUpSaleWidget();
 	}
@@ -158,25 +184,31 @@
 <div class="mt-4 p-4 box w-full flex flex-col items-center justify-center">
 	<button class="btn p-4" style="width:230px;" on:click={lockAssets}>
 		Lock {$selected_treasure.price}
-		{$selected_currency}
+		{#if $dev_ui_pk == ERDOGE_DEV_UI_PK}
+			{$selected_treasure.priceCurrency}
+		{:else}
+			{$selected_currency}
+		{/if}
 	</button>
-	<div class="flex mt-2">
-		<button
-			class:inactive={$selected_currency != 'hodlERG3'}
-			class:active={$selected_currency == 'hodlERG3'}
-			class="pl-4 pr-2 py-1 option-left text-sm"
-			style="min-width:100px"
-			on:click={() => selected_currency.set('hodlERG3')}>hodlERG3</button
-		>
-		<div style="height:100%; width:1px; background:gray;" />
-		<button
-			class:inactive={$selected_currency != 'ERG'}
-			class:active={$selected_currency == 'ERG'}
-			class="pr-4 pl-2 py-1 option-right text-sm"
-			style="min-width:100px"
-			on:click={() => selected_currency.set('ERG')}>ERG</button
-		>
-	</div>
+	{#if $dev_ui_pk != ERDOGE_DEV_UI_PK}
+		<div class="flex mt-2">
+			<button
+				class:inactive={$selected_currency != 'hodlERG3'}
+				class:active={$selected_currency == 'hodlERG3'}
+				class="pl-4 pr-2 py-1 option-left text-sm"
+				style="min-width:100px"
+				on:click={() => selected_currency.set('hodlERG3')}>hodlERG3</button
+			>
+			<div style="height:100%; width:1px; background:gray;" />
+			<button
+				class:inactive={$selected_currency != 'ERG'}
+				class:active={$selected_currency == 'ERG'}
+				class="pr-4 pl-2 py-1 option-right text-sm"
+				style="min-width:100px"
+				on:click={() => selected_currency.set('ERG')}>ERG</button
+			>
+		</div>
+	{/if}
 </div>
 
 <style>

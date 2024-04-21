@@ -1,6 +1,6 @@
 import { fetchContractBoxes } from "$lib/api-explorer/explorer.js";
-import { CONTRACT_HODL, CONTRACT_HODLERG3 } from "$lib/contract/compile.js";
-import { BITMASKS_DEV_UI_PK, HODLBOX_DEV_UI_PK, HODLBOX_TARGET_PRICE, HODLERG3_TOKEN_ID, WALRUS_DEV_UI_PK } from "$lib/contract/settings.js";
+import { CONTRACT_HODL, CONTRACT_HODLERG3, CONTRACT_MEME } from "$lib/contract/compile.js";
+import { BITMASKS_DEV_UI_PK, ERDOGE_DEV_UI_PK, ERDOGE_TARGET_PRICE, ERDOGE_TOKEN_ID, HODLBOX_DEV_UI_PK, HODLBOX_TARGET_PRICE, HODLERG3_TOKEN_ID, WALRUS_DEV_UI_PK } from "$lib/contract/settings.js";
 import { ErgoAddress, SGroupElement, SSigmaProp } from "@fleet-sdk/core";
 import { writable, type Writable } from "svelte/store";
 import { first } from "@fleet-sdk/common"
@@ -22,10 +22,15 @@ export type UnconfirmedSale = {
 export type Treasure = {
     id: number,
     price: number,
+    priceCurrency?: string,
+    targetRateInNanoErg?: bigint,
     img: string,
     cid: string,
     sha256: string,
     name: string,
+    unlockRate?: string,
+    unlockDate?: string,
+    unlockHeight?: number,
 }
 
 export const selected_wallet_ergo = writable('');
@@ -95,7 +100,7 @@ async function loadERGOffers() {
     })
 
     offers.update(arr => {
-        return [...arr, ...boxes]
+        return [...boxes, ...arr]
     });
     removeConfirmedBoxes(boxes);
 }
@@ -156,9 +161,30 @@ async function loadHodlERG3Offers() {
     removeConfirmedBoxes(boxes);
 }
 
+async function loadMemeOffers() {
+    const boxes = await fetchContractBoxes(CONTRACT_MEME);
+    boxes.forEach(b => {
+        let project = null;
+        if(b.assets[0]?.tokenId == ERDOGE_TOKEN_ID){
+            project = 'erdoge'
+        }
+        if(project == 'erdoge'){
+                b.treasure = ERDOGE_TREASURES[0];
+                b.currency = 'Erdoge';
+                b.hodler = ErgoAddress.fromPublicKey(b.additionalRegisters.R6.serializedValue.substring(4)).toString()
+        }
+    })
+
+    offers.update(arr => {
+        return [...boxes, ...arr]
+    });
+    removeConfirmedBoxes(boxes);
+}
+
 export async function loadOffers() {
     await loadHodlERG3Offers();
-    await loadERGOffers()
+    await loadERGOffers();
+    await loadMemeOffers();
 }
 
 function removeConfirmedBoxes(confirmedBoxes) {
@@ -270,14 +296,31 @@ export const HODLBOX_TREASURES = [
     },
 ]
 
-export const all_treasures = writable(HODLBOX_TREASURES)
-export const dev_ui_pk = writable(HODLBOX_DEV_UI_PK)
-export const target_price = writable(HODLBOX_TARGET_PRICE)
+export const ERDOGE_TREASURES = [
+    {
+        id: 0,
+        price: 1000,
+        priceCurrency: "Erdoge",
+        targetRateInNanoErg: 5_000_000_000n,
+        img: 'chest/erdoge/5000erg.png',
+        cid: 'bafybeihui4r6ylwy2u7crtvhllwy4rnorop3icpgvks5edkyb47f3guziq',
+        sha256: '4142a557cf9905610c69a6defa14be6d09495090e8f65db9aeda3a0dd236f009',
+        name: '5,000.00 ERG Hodlbox',
+        unlockRate: '5 ERG/Erdoge',
+        unlockDate: '2028-04-21',
+        unlockHeight: 2299152,
+    }
+]
+
+
+export const all_treasures = writable(ERDOGE_TREASURES)
+export const dev_ui_pk = writable(ERDOGE_DEV_UI_PK)
+export const target_price = writable(ERDOGE_TARGET_PRICE)
 
 const CURRENCIES = [
     'ERG',
     'hodlERG3'
 ]
 
-export const selected_treasure: Writable<Treasure> = writable(HODLBOX_TREASURES[0]);
+export const selected_treasure: Writable<Treasure> = writable(ERDOGE_TREASURES[0]);
 export const selected_currency: Writable<string> = writable(CURRENCIES[0]);
