@@ -304,7 +304,7 @@ export const ERDOGE_TREASURES = [
         targetRateInNanoErg: 5_000_000_000n,
         img: 'chest/erdoge/5000erg.png',
         cid: 'bafybeihui4r6ylwy2u7crtvhllwy4rnorop3icpgvks5edkyb47f3guziq',
-        sha256: '4142a557cf9905610c69a6defa14be6d09495090e8f65db9aeda3a0dd236f009',
+        sha256: 'd2c6d985f2d1203ab3a768aaf91cf66efc701d14c03368adb6d7c4a8064e1d57',
         name: '5,000.00 ERG Hodlbox',
         unlockRate: '5 ERG/Erdoge',
         unlockDate: '2028-04-21',

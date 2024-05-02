@@ -31,8 +31,8 @@ export async function sendToHodlMemeTx(
         description: `price: ${
             targetRateInNanoErg / 10n ** 9n
         } ERG, heigth:${targetHeight}, date: ${targetDate},`,
-        sha256: "4142a557cf9905610c69a6defa14be6d09495090e8f65db9aeda3a0dd236f009",
-        url: "https://i.ibb.co/FzXdR2Y/5000erg-original-min.png"
+        sha256: "d2c6d985f2d1203ab3a768aaf91cf66efc701d14c03368adb6d7c4a8064e1d57",
+        url: "https://i.ibb.co/1nh4rfw/5000erg.png"
     };
 
     const contractBox = new OutputBuilder(SAFE_MIN_BOX_VALUE, contractBase58PK)
