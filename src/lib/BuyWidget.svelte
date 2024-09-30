@@ -4,6 +4,7 @@
 	import { selected_wallet_ergo } from './store/store.js';
 	import { notifier } from '@beyonk/svelte-notifications';
 	import { HODLERG3_TOKEN_ID } from './contract/settings.js';
+	import { base } from '$app/paths';
 
 	export let offer;
 
@@ -47,7 +48,7 @@
 </script>
 
 <div class="p-4 flex flex-col justify-center items-center">
-	<img src={offer.treasure.img} alt="" style="width:200px;height:auto;" />
+	<img src={base + '/' + offer.treasure.img} alt="" style="width:200px;height:auto;" />
 	<div class="flex gap-2">
 		{offer.treasure.name}
 	</div>
