@@ -1,15 +1,16 @@
 <script lang="ts">
-	import HowItWorks from "$lib/HowItWorks.svelte";
-	import Landing from "$lib/Landing.svelte"
-	import LockedBoxes from "$lib/LockedBoxes.svelte"
-	import { loadOffers, loadStoreFromLocalStorage } from "$lib/store/store.js";
-	import { onMount } from "svelte";
-	
+	import { base } from '$app/paths';
+	import HowItWorks from '$lib/HowItWorks.svelte';
+	import Landing from '$lib/Landing.svelte';
+	import LockedBoxes from '$lib/LockedBoxes.svelte';
+	import { loadOffers, loadStoreFromLocalStorage } from '$lib/store/store.js';
+	import { onMount } from 'svelte';
+
 	let loading = false;
 
-	onMount(init)
+	onMount(init);
 
-	function init(){
+	function init() {
 		loadStoreFromLocalStorage();
 		loadOffers();
 	}
@@ -17,14 +18,14 @@
 
 <div class="h-full flex flex-col grow main-page">
 	{#if loading}
-	<div class="grow flex flex-col items-center justify-center">
-		<img class="unselectable" src="ship.png" style="width:250px;" alt="">
-		<div class="font-mono mt-4">loading...</div>
-	</div>
+		<div class="grow flex flex-col items-center justify-center">
+			<img class="unselectable" src="{base}/ship.png" style="width:250px;" alt="" />
+			<div class="font-mono mt-4">loading...</div>
+		</div>
 	{:else}
-		<Landing></Landing>
-		<HowItWorks></HowItWorks>
-		<LockedBoxes></LockedBoxes>
+		<Landing />
+		<HowItWorks />
+		<LockedBoxes />
 	{/if}
 </div>
 

@@ -1,6 +1,7 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import { selected_currency, target_price } from '$lib/store/store.js';
-    import SmartContractErg from "$lib/SmartContractErg.svelte"
+	import SmartContractErg from '$lib/SmartContractErg.svelte';
 </script>
 
 <div class="w-full min-h-full bg-main flex flex-col items-center">
@@ -26,7 +27,7 @@
 		</div>
 
 		<div style="max-width:700px;">
-			<img src="hodl.jpeg" alt="" class="mt-10" />
+			<img src="{base}/hodl.jpeg" alt="" class="mt-10" />
 
 			<div class=" text-4xl mt-20 mb-10 self-end">
 				<a
@@ -69,12 +70,12 @@
 			</div>
 		</div>
 
-        <div>
-            <div class=" text-4xl mt-10 mb-5">Smart Contract</div>
-            <div>
-                <SmartContractErg></SmartContractErg>
-            </div>
-        </div>
+		<div>
+			<div class=" text-4xl mt-10 mb-5">Smart Contract</div>
+			<div>
+				<SmartContractErg />
+			</div>
+		</div>
 	</div>
 </div>
 

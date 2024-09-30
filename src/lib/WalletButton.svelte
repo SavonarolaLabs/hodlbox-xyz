@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import { notifier } from '@beyonk/svelte-notifications';
 	import { selected_wallet_ergo } from '$lib/store/store.js';
 	import Modal from './common/Modal.svelte';
@@ -8,7 +9,7 @@
 	async function clickOnNautilusButton() {
 		showModal = false;
 		await connectErgoWallet('nautilus');
-		if(!$selected_wallet_ergo){
+		if (!$selected_wallet_ergo) {
 			balanceErg = '0.00';
 		}
 	}
@@ -48,7 +49,7 @@
 						class="p-2 w-full flex justify-center items-center bg-white border-orange-900 text-black bg-green-100 rounded-md bg-opacity-30 hover:bg-opacity-80"
 					>
 						<div>Install Nautilus</div>
-						<img style="height:2em;width:2em;" src="/wallets/nautilus.svg" alt="" />
+						<img style="height:2em;width:2em;" src="{base}/wallets/nautilus.svg" alt="" />
 					</a>
 				{:else}
 					<button
@@ -62,7 +63,7 @@
 							{/if}
 							Nautilus
 						</div>
-						<img style="height:2em;width:2em;" src="/wallets/nautilus.svg" alt="" />
+						<img style="height:2em;width:2em;" src="{base}/wallets/nautilus.svg" alt="" />
 					</button>
 				{/if}
 			</div>
