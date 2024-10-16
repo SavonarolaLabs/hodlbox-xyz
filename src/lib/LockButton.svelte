@@ -1,5 +1,5 @@
 <script lang="ts">
-	import * as JSONbig from "json-bigint";
+	import * as JSONbig from 'json-bigint';
 	import {
 		unconfirmed_mints,
 		selected_wallet_ergo,
@@ -190,7 +190,7 @@
 			{$selected_currency}
 		{/if}
 	</button>
-	{#if $dev_ui_pk != ERDOGE_DEV_UI_PK}
+	{#if false}
 		<div class="flex mt-2">
 			<button
 				class:inactive={$selected_currency != 'hodlERG3'}
